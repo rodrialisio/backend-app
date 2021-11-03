@@ -1,0 +1,8 @@
+[
+  {
+    "id": 1,
+    "title": "mate",
+    "price": 100,
+    "thumbnail": "https://www.infocampo.com.ar/wp-content/uploads/2021/09/Yerba-mate-infocampo.jpg"
+  }
+]
