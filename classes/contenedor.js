@@ -1,6 +1,6 @@
 const fs = require("fs")
 
-class Manager {
+class Contenedor {
     async save(product) {
         try {
             const data = await fs.promises.readFile("./files/products.txt","utf-8")
@@ -17,7 +17,7 @@ class Manager {
                 products.push(dataObj)
                 try {
                     fs.promises.writeFile("./files/products.txt",JSON.stringify(products,null,2))
-                    return {status:"success", message:"Producto agregado! id: ", log:dataObj.id}
+                    return {status:"success", message:"Producto agregado! id: ", payload:dataObj.id}
                 } catch (err){
                     return {status:"error",message:"No se pudo crear el producto:"+err}
                 }
@@ -31,13 +31,13 @@ class Manager {
             }
             try {
                 await fs.promises.writeFile("./files/products.txt",JSON.stringify([dataObj],null,2))
-                return {status:"success",message:"Producto creado exitosamente!", log: dataObj.id}
+                return {status:"success",message:"Producto creado exitosamente!", payload: dataObj.id}
             }catch (err) {
                 return {status:"error",message:"No se pudo crear el Producto:"+err}
             }
         }
     }
-    async getById(id) {
+    async getProductById(id) {
         try {
             let data = await fs.promises.readFile("./files/products.txt","utf-8")
             let products = JSON.parse(data)
@@ -53,12 +53,12 @@ class Manager {
             return {status:"error",message:"No se encontró el Producto:"+err}
         }
     }
-    async getAll() {
+    async getAllProducts() {
         try {
             let data = await fs.promises.readFile("./files/products.txt","utf-8")
             let products = JSON.parse(data)
             if (products) {
-                return {status:"success",message:"Productos: ", log: products}
+                return {status:"success",message:"Productos: ", payload: products}
             } else {
                 return {status:"error",message:"No se encontraron productos"}
             }   
@@ -66,7 +66,20 @@ class Manager {
             return {status:"error",message:"No se encontraron productos"+err}
         }
     }
-    async deleteById(id) {
+    async getAllUsers() {
+        try {
+            let data = await fs.promises.readFile("./files/users.txt","utf-8")
+            let users = JSON.parse(data)
+            if (users) {
+                return {status:"success",message:"Usuarios: ", payload: users}
+            } else {
+                return {status:"error",message:"No se encontraron usuarios"}
+            }   
+        } catch (err) {
+            return {status:"error",message:"No se encontraron usuarios"+err}
+        }
+    }
+    async deleteProductById(id) {
         try {
             let data = await fs.promises.readFile("./files/products.txt","utf-8")
             let products = JSON.parse(data)
@@ -81,7 +94,7 @@ class Manager {
             return {status:"error",message:"No se encontró el productos"+err}
         }
     }
-    async deleteAll() {
+    async deleteAllProducts() {
         try {
             await fs.promises.writeFile("./files/products.txt","[]")
             return {status:"success", message: "Productos eliminados"}
@@ -91,4 +104,4 @@ class Manager {
     }  
 }
 
-module.exports = Manager
+module.exports = Contenedor
