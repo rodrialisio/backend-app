@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "yerba",
+    "price": 100,
+    "thumbnail": "http://localhost:8080/images/1637098549628yerba.jpg"
+  },
+  {
+    "id": 2,
+    "title": "azucar",
+    "price": 50,
+    "thumbnail": "http://localhost:8080/images/1637098594583azucar.jpg"
+  },
+  {
+    "id": 3,
+    "title": "sal",
+    "price": 40,
+    "thumbnail": "http://localhost:8080/images/1637098635109sal.jpg"
+  },
+  {
+    "id": 4,
+    "title": "miel",
+    "price": 200,
+    "thumbnail": "http://localhost:8080/images/1637179909590miel.jpg"
+  }
+]
