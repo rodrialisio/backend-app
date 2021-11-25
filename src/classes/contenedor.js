@@ -1,4 +1,4 @@
-const fs = require("fs")
+import fs from "fs"
 
 class Contenedor {
     async registerProduct(product) {
@@ -64,7 +64,7 @@ class Contenedor {
                 return {status:"error",message:"No se encontraron productos"}
             }   
         } catch (err) {
-            return {status:"error",message:"No se encontraron productos"+err}
+            return {status:"error",message:"No se encontraron productos"+err, payload:[]}
         }
     }
 
@@ -128,4 +128,4 @@ class Contenedor {
     }  
 }
 
-module.exports = Contenedor
+export default Contenedor

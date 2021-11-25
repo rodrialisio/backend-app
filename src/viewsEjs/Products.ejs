@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<%- include ("./partials/Header.ejs") %>
+<body>
+    <h1>Productos:</h1>
+    <div class="flex-container">
+        <% if (lista.length>0) { %>
+            <% lista.forEach(item => { %>
+                <div class="card" style="width: 18rem;">
+                    <img src= "<%= item.thumbnail %>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= item.title %></h5>
+                        <p class="card-text">$ <%= item.price %> x kg</p>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <h3>No hay productos</h3>
+        <% } %>
+    <div><br/>
+    <div class="no-flex-container">
+        <a href="/"><button type="button" class="btn btn-primary">Ingresar producto</button></button></a>
+    </div>
+</body>
+</html>

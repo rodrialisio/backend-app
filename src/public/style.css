@@ -1,0 +1,30 @@
+body {
+    background-color: rgb(140, 202, 202);
+}
+
+button {
+    margin:10px
+}
+
+h1 {
+    padding: 20px
+}
+
+.flex-container {
+    padding:50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.no-flex-container {
+    padding:50px;
+    justify-content: center;
+    text-align: center;
+}
+
+.card {
+    margin: 5px
+}
+

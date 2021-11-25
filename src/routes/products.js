@@ -1,15 +1,15 @@
-const express =require("express")
+import express from "express"
+import Contenedor from '../classes/contenedor.js'
 const router = express.Router("router")
-const Contenedor = require('../classes/contenedor.js')
 const contenedor =new Contenedor()
-const upload = require("../services/upload")
+import upload from "../services/upload.js"
 
 router.get("/", async (req,res)=> {
     const products = await contenedor.getAllProducts()
     if (products.status==="success") {
-            res.status(200).send(products.payload)
+        res.status(200).render("Products",{lista: products.payload})
     } else {
-        res.status(500).send(products.message)
+        res.status(500).render("Products",{lista: []})
     }
 })
 
@@ -48,4 +48,4 @@ router.delete('/:id',(req,res)=>{
     })
 })
 
-module.exports = router
+export default router

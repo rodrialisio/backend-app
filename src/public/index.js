@@ -9,5 +9,6 @@ document.addEventListener("submit", e => {
         return result.json()
     }).then (json=> {
         console.log(json)
+        alert("Nuevo producto ingresado!")
     })
 })

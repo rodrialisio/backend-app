@@ -1,8 +1,9 @@
-const express = require("express")
+import express from "express"
+import Contenedor from '../classes/contenedor.js'
+import upload from "../services/upload.js"
+
 const router = express.Router("router")
-const Contenedor = require('../classes/contenedor.js')
 const contenedor =new Contenedor()
-const upload = require("../services/upload")
 
 router.get("/",async (req,res)=> {             
     const users = await contenedor.getAllUsers()
@@ -22,4 +23,4 @@ router.get("/:nombre", async (req,res)=> {
     }
 }) 
 
-module.exports = router
+export default router

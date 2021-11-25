@@ -20,7 +20,7 @@
   {
     "id": 4,
     "title": "miel",
-    "price": 200,
-    "thumbnail": "http://localhost:8080/images/1637179909590miel.jpg"
+    "price": "500",
+    "thumbnail": "http://localhost:8080/images/1637596596292miel.jpg"
   }
 ]
