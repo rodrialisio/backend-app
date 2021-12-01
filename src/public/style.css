@@ -7,24 +7,45 @@ button {
 }
 
 h1 {
-    padding: 20px
+    padding-top:50px;
+    padding-left: 100px;
 }
 
 .flex-container {
-    padding:50px;
+    padding-top:20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     text-align: center;
 }
 
 .no-flex-container {
-    padding:50px;
+    padding-top:20px;
+    padding-bottom: 20px;
+    padding-left: 100px;
     justify-content: center;
-    text-align: center;
+}
+
+#home-product-list > div {
+    color: white;
+    padding:10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: gray;
+}
+
+#home-product-list > div > img {
+    width:100px;
+    margin: 10px
 }
 
 .card {
     margin: 5px
 }
+
+
 

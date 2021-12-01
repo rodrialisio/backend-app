@@ -3,6 +3,7 @@ import Contenedor from '../classes/contenedor.js'
 const router = express.Router("router")
 const contenedor =new Contenedor()
 import upload from "../services/upload.js"
+import { io } from "../app.js"
 
 router.get("/", async (req,res)=> {
     const products = await contenedor.getAllProducts()
@@ -22,13 +23,21 @@ router.get("/:id", async (req,res)=> {
     }
 })
 
-router.post('/',upload.single("image"),(req,res)=>{
+router.post('/',upload.single("image"), (req,res)=>{
     let product = req.body;
     product.price= parseInt(product.price)
     let thumbnail= "http://localhost:8080/images/"+req.file.filename
     product.thumbnail= thumbnail                                                     
     contenedor.registerProduct(product).then(result=>{
         res.send(result);
+        if (result.status==="success") {
+            contenedor.getAllProducts().then(products=> {
+                console.log("resultado2:", products)
+                io.emit("updateProducts",products)
+            /* let products = async ()=> await contenedor.getAllProducts()
+            socket.emit("updateProducts", products) */
+            })
+        }
     })
 })
 
@@ -45,6 +54,11 @@ router.delete('/:id',(req,res)=>{
     let id= parseInt(req.params.id);
     contenedor.deleteProductById(id).then(result=>{
         res.send(result)
+        if (result.status==="success") {
+            contenedor.getAllProducts().then(result=> {
+                io.emit("updateProducts",result)
+            })
+        }
     })
 })
 

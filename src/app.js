@@ -4,7 +4,8 @@ import Contenedor from "./classes/contenedor.js"
 import productRouter from "./routes/products.js"
 import userRouter from "./routes/users.js"
 import {engine} from "express-handlebars"
-
+import {Server} from "socket.io"
+import __dirname from "./utils.js";
 
 const app = express();
 const port = process.env.PORT || 8080                           
@@ -14,10 +15,11 @@ const server = app.listen(port, ()=>{
 })
 
 const contenedor = new Contenedor()
+export const io = new Server(server)
 
 app.use(express.json());                                        
 app.use(express.urlencoded({extended:true}))                    
-app.use(express.static("public"))        
+app.use(express.static(__dirname+"/public"))        
 app.use(cors())
 app.use("/api/productos", productRouter)
 app.use("/api/usuarios", userRouter)
@@ -25,7 +27,7 @@ app.use("/api/usuarios", userRouter)
 // PARA UTILIZAR HANDLEBARS:
 
 app.engine("handlebars",engine())
-app.set("views","./viewsHandlebars")
+app.set("views",__dirname+"/views")
 app.set("view engine","handlebars") 
 let message= "(Esto es Handlebars)"
 
@@ -42,7 +44,8 @@ app.set("view engine","ejs")
 let message= "(Esto es EJS)" */
 
 
-app.get("/",(req,res)=> {
+app.get("/",async function (req,res) {
+    const products = await contenedor.getAllProducts()
     res.render("Home",{engine: message})
 })
 
@@ -61,6 +64,12 @@ app.get("/productoRandom", async (req,res)=> {
     } else {
         res.status(500).send(products.message)
     }
+})
+
+io.on("connection", async socket => {
+    console.log(`El socket ${socket.id} se ha conectado.`)
+    let products = await contenedor.getAllProducts()
+    socket.emit("updateProducts", products)
 })
 
 

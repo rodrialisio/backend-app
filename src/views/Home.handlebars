@@ -1,4 +1,3 @@
-<div> {{engine}} </div>
 <h1>Nuevo producto:</h1>
 <form id="productForm" name="productForm" class="no-flex-container">
     <label for="title">Tipo</label><br>
@@ -10,7 +9,11 @@
     <button type="button submit" class="btn btn-success">REGISTRAR PRODUCTO</button> 
 </form>
 <div class="no-flex-container">
-    <a href="./api/productos"><button type="button" class="btn btn-primary">Lista de Productos</button></a>
+    <a href="./api/productos"><button type="button" class="btn btn-primary">Ver lista de productos</button></a>
 </div>
-
+<h1>Productos en tiempo real:</h1>
+<div>
+    <div id="home-product-list" class="flex-container"></div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="index.js"></script>
