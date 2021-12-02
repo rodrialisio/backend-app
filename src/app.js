@@ -24,25 +24,9 @@ app.use(cors())
 app.use("/api/productos", productRouter)
 app.use("/api/usuarios", userRouter)
 
-// PARA UTILIZAR HANDLEBARS:
-
 app.engine("handlebars",engine())
 app.set("views",__dirname+"/views")
 app.set("view engine","handlebars") 
-let message= "(Esto es Handlebars)"
-
-// PARA UTILIZAR PUG:
-
-/* app.set("views","./viewsPug")
-app.set("view engine","pug")
-let message= "(Esto es Pug)" */
-
-// PARA UTILIZAR EJS:
-
-/* app.set("views","./viewsEjs")
-app.set("view engine","ejs")
-let message= "(Esto es EJS)" */
-
 
 app.get("/",async function (req,res) {
     const products = await contenedor.getAllProducts()
@@ -66,11 +50,20 @@ app.get("/productoRandom", async (req,res)=> {
     }
 })
 
+const messages=[]
+
 io.on("connection", async socket => {
     console.log(`El socket ${socket.id} se ha conectado.`)
     let products = await contenedor.getAllProducts()
     socket.emit("updateProducts", products)
+    socket.emit("messagelog",messages)
+    socket.on("message",data=> {
+        messages.push(data)
+        io.emit("messagelog",messages)
+    })
 })
+
+
 
 
 

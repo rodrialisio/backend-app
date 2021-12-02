@@ -1,4 +1,4 @@
-<h1>Nuevo producto:</h1>
+<h3>Nuevo producto:</h3>
 <form id="productForm" name="productForm" class="no-flex-container">
     <label for="title">Tipo</label><br>
     <input name="title" required><br>
@@ -11,9 +11,20 @@
 <div class="no-flex-container">
     <a href="./api/productos"><button type="button" class="btn btn-primary">Ver lista de productos</button></a>
 </div>
-<h1>Productos en tiempo real:</h1>
+<h3>Productos en tiempo real:</h3>
 <div>
     <div id="home-product-list" class="flex-container"></div>
+</div>
+<h3>Chat:</h3>
+<div>
+    <div id="home-chat" class="no-flex-container">
+        <div id="home-chat-user-container">
+            <input id="user" class="home-chat-input" type="text" placeholder="Nombre"><br>
+            <input id="email" class="home-chat-input" type="email" placeholder="E-mail"><br>
+        </div>    
+        <input id="message-input" class="home-chat-input" type="text" placeholder="mensaje">
+        <div id="home-chat-message-log"></div>
+    </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="index.js"></script>

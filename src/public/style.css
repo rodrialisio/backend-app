@@ -6,8 +6,8 @@ button {
     margin:10px
 }
 
-h1 {
-    padding-top:50px;
+h3 {
+    padding-top:30px;
     padding-left: 100px;
 }
 
@@ -31,8 +31,8 @@ h1 {
 #home-product-list > div {
     color: white;
     padding:10px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
     background-color: gray;
@@ -45,6 +45,10 @@ h1 {
 
 .card {
     margin: 5px
+}
+
+#message-input {
+    size: 2rem
 }
 
 

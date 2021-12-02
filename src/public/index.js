@@ -1,4 +1,28 @@
+
 const socket = io()
+
+let user = document.getElementById("user")
+let email = document.getElementById("email")
+let input = document.getElementById("message-input")
+
+input.addEventListener("keyup",(e)=> {
+    if (e.key==="Enter") {
+        if (user.value && email.value) {
+            socket.emit("message", {user:user.value, message:e.target.value})
+            input.value=""
+        } else {
+            alert("Por favor completa tus datos para chatear.")
+        }        
+    }
+})
+
+socket.on("messagelog",data => {
+    let p = document.getElementById("home-chat-message-log")
+    let messages = data.map(message => {
+        return `<div><span>${message.user} : ${message.message}</span></div>`
+    }).join("")
+    p.innerHTML= messages
+}) 
 
 socket.on("updateProducts", data => {
     let products = data.payload

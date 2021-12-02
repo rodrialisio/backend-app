@@ -57,8 +57,8 @@ class Contenedor {
     async getAllProducts() {
         try {
             let data = await fs.promises.readFile("./files/products.txt","utf-8")
+            console.log(data)
             let products = JSON.parse(data)
-            console.log("63")
             if (products) {
                 return {status:"success",message:"Productos: ", payload: products}
             } else {

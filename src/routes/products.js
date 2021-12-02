@@ -29,15 +29,12 @@ router.post('/',upload.single("image"), (req,res)=>{
     let thumbnail= "http://localhost:8080/images/"+req.file.filename
     product.thumbnail= thumbnail                                                     
     contenedor.registerProduct(product).then(result=>{
-        res.send(result);
         if (result.status==="success") {
             contenedor.getAllProducts().then(products=> {
-                console.log("resultado2:", products)
                 io.emit("updateProducts",products)
-            /* let products = async ()=> await contenedor.getAllProducts()
-            socket.emit("updateProducts", products) */
             })
         }
+        res.send(result);
     })
 })
 

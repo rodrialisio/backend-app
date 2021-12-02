@@ -22,11 +22,5 @@
     "title": "miel",
     "price": "500",
     "thumbnail": "http://localhost:8080/images/1637596596292miel.jpg"
-  },
-  {
-    "id": 5,
-    "title": "perro",
-    "price": 1,
-    "thumbnail": "http://localhost:8080/images/1638324687983a.png"
   }
 ]
