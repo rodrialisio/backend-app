@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(140, 202, 202);
+    background-color: rgb(106, 231, 173);
 }
 
 button {
@@ -22,6 +22,7 @@ h3 {
 }
 
 .no-flex-container {
+    margin: 10px;
     padding-top:20px;
     padding-bottom: 20px;
     padding-left: 100px;
@@ -35,7 +36,7 @@ h3 {
     margin-right: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
-    background-color: gray;
+    background-color: rgb(233, 130, 89);
 }
 
 #home-product-list > div > img {
@@ -47,8 +48,16 @@ h3 {
     margin: 5px
 }
 
-#message-input {
-    size: 2rem
+.chat-log-message-user {
+    font-weight:bolder;
+    color: blue
+}
+.chat-log-message-time {
+    color: brown
+}
+.chat-log-message-text {
+    color: green;
+    font-style:italic
 }
 
 

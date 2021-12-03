@@ -15,15 +15,16 @@
 <div>
     <div id="home-product-list" class="flex-container"></div>
 </div>
-<h3>Chat:</h3>
+<h3>Centro de mensajes:</h3>
 <div>
     <div id="home-chat" class="no-flex-container">
         <div id="home-chat-user-container">
-            <input id="user" class="home-chat-input" type="text" placeholder="Nombre"><br>
-            <input id="email" class="home-chat-input" type="email" placeholder="E-mail"><br>
+            <input id="user" type="text" placeholder="Nombre"><br>
+            <input id="email" type="email" placeholder="E-mail"><br>
         </div>    
-        <input id="message-input" class="home-chat-input" type="text" placeholder="mensaje">
-        <div id="home-chat-message-log"></div>
+        <input id="message-input" class="no-flex-container" type="text" placeholder="mensaje">
+        <button id="message-send-button" type="button" class="btn btn-secondary">Enviar</button>
+        <div id="home-chat-message-log" class="no-flex-container"></div>
     </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>

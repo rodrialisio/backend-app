@@ -16,7 +16,7 @@ class Contenedor {
                 }
                 products.push(dataObj)
                 try {
-                    fs.promises.writeFile("./files/products.txt",JSON.stringify(products,null,2))
+                    await fs.promises.writeFile("./files/products.txt",JSON.stringify(products,null,2))
                     return {status:"success", message:"Producto agregado!", payload:dataObj}
                 } catch (err){
                     return {status:"error",message:"No se pudo crear el producto:"+err}
@@ -57,7 +57,6 @@ class Contenedor {
     async getAllProducts() {
         try {
             let data = await fs.promises.readFile("./files/products.txt","utf-8")
-            console.log(data)
             let products = JSON.parse(data)
             if (products) {
                 return {status:"success",message:"Productos: ", payload: products}

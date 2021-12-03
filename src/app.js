@@ -6,6 +6,7 @@ import userRouter from "./routes/users.js"
 import {engine} from "express-handlebars"
 import {Server} from "socket.io"
 import __dirname from "./utils.js";
+import moment from "moment";
 
 const app = express();
 const port = process.env.PORT || 8080                           
@@ -30,7 +31,7 @@ app.set("view engine","handlebars")
 
 app.get("/",async function (req,res) {
     const products = await contenedor.getAllProducts()
-    res.render("Home",{engine: message})
+    res.render("Home")
 })
 
 app.use((req,res,next)=> {
@@ -58,6 +59,8 @@ io.on("connection", async socket => {
     socket.emit("updateProducts", products)
     socket.emit("messagelog",messages)
     socket.on("message",data=> {
+        let time= moment()
+        data.time= time.format("DD/MM/YYYY HH:mm")
         messages.push(data)
         io.emit("messagelog",messages)
     })

@@ -1,25 +1,35 @@
-
 const socket = io()
 
 let user = document.getElementById("user")
 let email = document.getElementById("email")
 let input = document.getElementById("message-input")
+let inputButton = document.getElementById("message-send-button")
+
+function sendMessage(text) {
+    if (user.value && email.value.includes("@")) {
+        socket.emit("message", {email:email.value, message:input.value})
+        input.value=""
+    } else {
+        alert(`Por favor completa tus datos para chatear. Tu dirección de e-mail debe incluir "@"`)
+    }    
+}
 
 input.addEventListener("keyup",(e)=> {
-    if (e.key==="Enter") {
-        if (user.value && email.value) {
-            socket.emit("message", {user:user.value, message:e.target.value})
-            input.value=""
-        } else {
-            alert("Por favor completa tus datos para chatear.")
-        }        
-    }
+    if (e.key==="Enter" && input.value !="") {sendMessage()}
+})
+
+inputButton.addEventListener("click", ()=> {
+    if (input.value !="") {sendMessage()}
 })
 
 socket.on("messagelog",data => {
     let p = document.getElementById("home-chat-message-log")
     let messages = data.map(message => {
-        return `<div><span>${message.user} : ${message.message}</span></div>`
+        return `<div class="chat-log-message">
+                    <span class="chat-log-message-user">${message.email} - </span>
+                    <span class="chat-log-message-time">${message.time}: </span>
+                    <span class="chat-log-message-text">${message.message}</span>
+                </div>`
     }).join("")
     p.innerHTML= messages
 }) 
@@ -50,6 +60,6 @@ document.addEventListener("submit", e => {
         return result.json()
     }).then (json=> {
         console.log("productos",json)
-        alert("Nuevo producto ingresado!")
+        alert(json.message)
     })
 })
