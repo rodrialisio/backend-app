@@ -18,13 +18,18 @@ const server = app.listen(port, ()=>{
 const contenedor = new Contenedor()
 export const io = new Server(server)
 
+const admin = true
+app.use((req,res,next)=> {
+    req.auth=admin
+    next()
+})
+
 app.use(express.json());                                        
 app.use(express.urlencoded({extended:true}))                    
 app.use(express.static(__dirname+"/public"))        
 app.use(cors())
 app.use("/api/productos", productRouter)
 app.use("/api/usuarios", userRouter)
-
 app.engine("handlebars",engine())
 app.set("views",__dirname+"/views")
 app.set("view engine","handlebars") 

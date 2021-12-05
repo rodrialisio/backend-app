@@ -4,8 +4,9 @@ const router = express.Router("router")
 const contenedor =new Contenedor()
 import upload from "../services/upload.js"
 import { io } from "../app.js"
+import { authMiddleware } from "../utils.js"
 
-router.get("/", async (req,res)=> {
+router.get("/", authMiddleware, async (req,res)=> {
     const products = await contenedor.getAllProducts()
     if (products.status==="success") {
         res.status(200).render("Products",{lista: products.payload})
