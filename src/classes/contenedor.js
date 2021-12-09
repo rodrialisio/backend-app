@@ -8,11 +8,17 @@ class Contenedor {
             if (products.some(e => e.title === product.title)) {
                 return {status:"error", message:"Producto ya existente"}
             } else {
+                let timestamp = Date.now()
+                let time = new Date(timestamp)
                 const dataObj = {
                     id: products? products[products.length-1].id +1 : 1,
                     title : product.title,
+                    timestamp: time.toString(),
+                    description: product.description? product.description : "Un excelente producto.",
+                    code: product.code? product.code : "XXXX",
                     price: product.price,
-                    thumbnail: product.thumbnail
+                    thumbnail: product.thumbnail,
+                    stock: product.stock? product.stock : "Ilimitado"
                 }
                 products.push(dataObj)
                 try {
@@ -23,15 +29,21 @@ class Contenedor {
                 }
             }               
         } catch {
+            let timestamp = Date.now()
+            let time = new Date(timestamp)
             const dataObj = {
                 id: 1,
                 title : product.title,
+                timestamp: time.toString(),
+                description: product.description? product.description : "Un excelente producto.",
+                code: product.code? product.code : "XXXX",
                 price: product.price,
-                thumbnail: product.thumbnail
+                thumbnail: product.thumbnail,
+                stock: product.stock? product.stock : "Ilimitado"
             }
             try {
                 await fs.promises.writeFile("./files/products.txt",JSON.stringify([dataObj],null,2))
-                return {status:"success",message:"Producto agregado!", payload: dataObj.id}
+                return {status:"success",message:"Producto agregado!", payload: dataObj}
             }catch (err) {
                 return {status:"error",message:"No se pudo crear el Producto:"+err}
             }
@@ -48,7 +60,6 @@ class Contenedor {
             } else {
                 return {status:"error",message:"Producto no encontrado"}
             }
-            
         } catch (err) {
             return {status:"error",message:"No se encontró el Producto:"+err}
         }
@@ -65,20 +76,6 @@ class Contenedor {
             }   
         } catch (err) {
             return {status:"error",message:"No se encontraron productos"+err, payload:[]}
-        }
-    }
-
-    async getAllUsers() {
-        try {
-            let data = await fs.promises.readFile("./files/users.txt","utf-8")
-            let users = JSON.parse(data)
-            if (users) {
-                return {status:"success",message:"Usuarios: ", payload: users}
-            } else {
-                return {status:"error",message:"No se encontraron usuarios"}
-            }   
-        } catch (err) {
-            return {status:"error",message:"No se encontraron usuarios"+err}
         }
     }
 

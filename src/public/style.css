@@ -30,18 +30,19 @@ h3 {
 }
 
 #home-product-list > div {
-    color: white;
+    color: rgb(0, 0, 0);
     padding:10px;
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
-    background-color: rgb(233, 130, 89);
+    background-color: rgb(255, 255, 255);
+    text-align: left;
 }
 
-#home-product-list > div > img {
+#home-product-list> div > img {
     width:100px;
-    margin: 10px
+    margin: 10px;
 }
 
 .card {

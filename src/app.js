@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors";
 import Contenedor from "./classes/contenedor.js"
 import productRouter from "./routes/products.js"
-import userRouter from "./routes/users.js"
+import cartRouter from "./routes/carts.js"
 import {engine} from "express-handlebars"
 import {Server} from "socket.io"
 import __dirname from "./utils.js";
@@ -28,16 +28,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}))                    
 app.use(express.static(__dirname+"/public"))        
 app.use(cors())
-app.use("/api/productos", productRouter)
-app.use("/api/usuarios", userRouter)
 app.engine("handlebars",engine())
 app.set("views",__dirname+"/views")
 app.set("view engine","handlebars") 
-
-app.get("/",async function (req,res) {
-    const products = await contenedor.getAllProducts()
-    res.render("Home")
-})
 
 app.use((req,res,next)=> {
     let timestamp = Date.now()
@@ -45,6 +38,15 @@ app.use((req,res,next)=> {
     console.log("Request made at "+time.toTimeString())
     next()
 })
+
+app.use("/api/productos", productRouter)
+app.use("/api/carritos", cartRouter)
+
+/* app.get("/",async function (req,res) {
+    const products = await contenedor.getAllProducts()
+    
+    res.render("Home")
+}) */
 
 app.get("/productoRandom", async (req,res)=> {
     const products = await contenedor.getAllProducts()
@@ -70,6 +72,7 @@ io.on("connection", async socket => {
         io.emit("messagelog",messages)
     })
 })
+
 
 
 

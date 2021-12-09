@@ -49,7 +49,7 @@ socket.on("updateProducts", data => {
 })
 
 document.addEventListener("submit", e => {
-    fetch("templates/productTable.handlebars")
+    /* fetch("templates/productTable.handlebars") */
     e.preventDefault()
     let form = document.getElementById("productForm")
     let data = new FormData(form)    
@@ -59,7 +59,10 @@ document.addEventListener("submit", e => {
     }).then(result => { 
         return result.json()
     }).then (json=> {
-        console.log("productos",json)
+        console.log("respuesta",json)
         alert(json.message)
     })
 })
+
+
+

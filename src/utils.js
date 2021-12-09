@@ -1,4 +1,3 @@
-import  fs from "fs"
 import { fileURLToPath } from "url"
 import { dirname } from "path"
 
@@ -8,7 +7,7 @@ const __dirname = dirname(filename)
 export default __dirname
 
 export const authMiddleware = (req,res,next)=> {
-    if (!req.auth) res.status(403).send({error:-2,message:"NO AUTORIZADO"})
+    if (!req.auth) res.status(403).send({error:-1,message:"NO AUTORIZADO"})
     next()
 }
 

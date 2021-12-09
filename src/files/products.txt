@@ -2,25 +2,41 @@
   {
     "id": 1,
     "title": "yerba",
-    "price": 100,
-    "thumbnail": "http://localhost:8080/images/1637098549628yerba.jpg"
+    "timestamp": "Wed Dec 08 2021 11:54:04 GMT-0300 (GMT-03:00)",
+    "description": "Yerba mate muy aguantadora.",
+    "code": "xxxx",
+    "price": "100",
+    "thumbnail": "http://localhost:8080/images/1639006912817yerba.jpg",
+    "stock": "Ilimitado"
   },
   {
     "id": 2,
     "title": "azucar",
+    "timestamp": "Wed Dec 08 2021 11:54:04 GMT-0300 (GMT-03:00)",
+    "description": "Azúcar especial para mojito.",
+    "code": "xxxx",
     "price": 50,
-    "thumbnail": "http://localhost:8080/images/1637098594583azucar.jpg"
+    "thumbnail": "http://localhost:8080/images/1637098594583azucar.jpg",
+    "stock": "Ilimitado"
   },
   {
     "id": 3,
     "title": "sal",
+    "timestamp": "Wed Dec 08 2021 11:54:04 GMT-0300 (GMT-03:00)",
+    "description": "Sal del mar muerto para flotar en la pileta.",
+    "code": "xxxx",
     "price": 40,
-    "thumbnail": "http://localhost:8080/images/1637098635109sal.jpg"
+    "thumbnail": "http://localhost:8080/images/1637098635109sal.jpg",
+    "stock": "Ilimitado"
   },
   {
     "id": 4,
     "title": "miel",
+    "timestamp": "Wed Dec 08 2021 11:54:04 GMT-0300 (GMT-03:00)",
+    "description": "Miel recomendada para osos.",
+    "code": "xxxx",
     "price": "500",
-    "thumbnail": "http://localhost:8080/images/1637596596292miel.jpg"
+    "thumbnail": "http://localhost:8080/images/1637596596292miel.jpg",
+    "stock": "Ilimitado"
   }
 ]

@@ -6,13 +6,18 @@ import upload from "../services/upload.js"
 import { io } from "../app.js"
 import { authMiddleware } from "../utils.js"
 
-router.get("/", authMiddleware, async (req,res)=> {
+router.get("/", async (req,res)=> {
     const products = await contenedor.getAllProducts()
     if (products.status==="success") {
+        res.status(200).send(products)
+    } else {
+        res.status(500).send(products)
+    }
+    /* if (products.status==="success") {
         res.status(200).render("Products",{lista: products.payload})
     } else {
         res.status(500).render("Products",{lista: []})
-    }
+    } */
 })
 
 router.get("/:id", async (req,res)=> {    
@@ -24,7 +29,7 @@ router.get("/:id", async (req,res)=> {
     }
 })
 
-router.post('/',upload.single("image"), (req,res)=>{
+router.post('/',authMiddleware, upload.single("image"), (req,res)=>{
     let product = req.body;
     product.price= parseInt(product.price)
     let thumbnail= "http://localhost:8080/images/"+req.file.filename
@@ -39,7 +44,7 @@ router.post('/',upload.single("image"), (req,res)=>{
     })
 })
 
-router.put('/:id',upload.single("image"),(req,res)=>{
+router.put('/:id',authMiddleware, upload.single("image"),(req,res)=>{
     let id = parseInt(req.params.id);
     let body = req.body
     body.thumbnail= "http://localhost:8080/images/"+req.file.filename
@@ -48,7 +53,7 @@ router.put('/:id',upload.single("image"),(req,res)=>{
     })
 })
 
-router.delete('/:id',(req,res)=>{
+router.delete('/:id',authMiddleware, (req,res)=>{
     let id= parseInt(req.params.id);
     contenedor.deleteProductById(id).then(result=>{
         res.send(result)
