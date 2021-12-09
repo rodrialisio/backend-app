@@ -3,6 +3,12 @@ import Carrito from '../classes/carrito.js'
 const router = express.Router("router")
 const carrito =new Carrito()
 
+router.get("/", (req,res)=> {
+    carrito.getAllCarts().then(result=> {
+        res.send(result)
+    })
+})
+
 router.get("/:id/productos", (req,res)=> {
     const id= req.params.id
     carrito.getCartProducts(id).then(result=> {

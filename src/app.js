@@ -44,7 +44,6 @@ app.use("/api/carritos", cartRouter)
 
 /* app.get("/",async function (req,res) {
     const products = await contenedor.getAllProducts()
-    
     res.render("Home")
 }) */
 

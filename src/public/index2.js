@@ -20,6 +20,25 @@ function loadProducts() {
 }
 loadProducts()
 
+function loadCarts() {
+    fetch("/api/carritos",{
+        method: "GET",
+    }).then(result => {
+        return result.json()
+    }).then (json=> {
+        let cartList= document.getElementById("home-cart-list")
+        cartList.innerHTML = json.payload.map(c => {
+            return `<div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title"> id: ${c.id} </h5>
+                            <p class="card-text">Productos: ${c.products.map(c=> c.title).join(", ")}</p>
+                        </div>
+                    </div>`
+        })            
+    })
+}
+loadCarts()
+
 document.addEventListener("submit", e => {
     e.preventDefault()
     let form = document.getElementById("productForm")

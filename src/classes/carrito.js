@@ -36,6 +36,20 @@ export default class Carrito {
         }
     }
 
+    async getAllCarts() {
+        try {
+            let data = await fs.promises.readFile("./files/carts.txt","utf-8")
+            let carts = JSON.parse(data)
+            if (carts) {
+                return {status:"success",message:"Productos: ", payload: carts}
+            } else {
+                return {status:"error",message:"No se encontraron carritos"}
+            }   
+        } catch (err) {
+            return {status:"error",message:"No se encontraron carritos"+err, payload:[]}
+        }
+    }
+
     async getCartProducts(id) {
         try {
             let data = await fs.promises.readFile("./files/carts.txt","utf-8")
