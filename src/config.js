@@ -14,7 +14,7 @@ export const productDatabase = knex({
         port:3306,
         user:"root",
         password: "",
-        database: "database"
+        database: "ecommerce"
     },
     pool: {min:0,max:10}
 })
