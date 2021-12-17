@@ -1,0 +1,16 @@
+PENDIENTE:
+borrar de public las imágenes de productos eliminados
+ponele swal
+vaciar el carrito antes de eliminarlo (por stock)
+
+PARA IMPLEMENTAR EN GLITCH:
+1- en los .js de classes, en todos los read/writefile insertar __dirname en la ruta
+2- en los .js de routes, en todos los read/writefile sacar del path el numero de puerto
+3- en services/upload agregar __dirname a la ruta de destination
+4-en package.json setear start en "babel-node src/app.js"
+
+
+PARA USAR VIEWS DEL FRONT:
+1-en la ruta products.js en la ruta get "/" reemplazar lineas de res.render por res.send
+
+

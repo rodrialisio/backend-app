@@ -1,20 +1,27 @@
-<h3>Nuevo producto:</h3>
 <form id="productForm" name="productForm" class="no-flex-container">
+    <h3>Nuevo producto:</h3>
     <label for="title">Tipo</label><br>
     <input name="title" required><br>
+    <label for="description">Descripción</label><br>
+    <input name="description" required><br>
+    <label for="code">Código</label><br>
+    <input name="code" required><br>
     <label for="price">Precio</label><br>
     <input name="price" type="number" required><br>
+    <label for="stock">Stock</label><br>
+    <input name="stock" type="number" required><br>
     <label for="image">Foto</label><br>
     <input name="image" type="file" required><br>
-    <button type="button submit" class="btn btn-success">REGISTRAR PRODUCTO</button> 
+    <button type="button submit" class="btn btn-success">REGISTRAR PRODUCTO</button>  
 </form>
 <div class="no-flex-container">
-    <a href="./api/productos"><button type="button" class="btn btn-primary">Ver lista de productos</button></a>
-</div>
-<h3>Productos en tiempo real:</h3>
-<div>
+        <a href="./api/productos"><button type="button" class="btn btn-primary">Ver lista de productos</button></a>
+    </div>
+<div class="no-flex-container">
+    <h3>Productos en tiempo real:</h3>
     <div id="home-product-list" class="flex-container"></div>
 </div>
+
 <h3>Centro de mensajes:</h3>
 <div>
     <div id="home-chat" class="no-flex-container">
@@ -25,6 +32,7 @@
         <input id="message-input" class="no-flex-container" type="text" placeholder="mensaje">
         <button id="message-send-button" type="button" class="btn btn-secondary">Enviar</button>
         <div id="home-chat-message-log" class="no-flex-container"></div>
+        <button ID="clear-log-button" class="btn btn-warning">CLEAR LOG</button>
     </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>

@@ -1,8 +1,9 @@
 import fs from "fs"
+import __dirname from "../utils.js"
 
 class Contenedor {
     async registerProduct(product) {
-        try {
+        try {   
             const data = await fs.promises.readFile("./files/products.txt","utf-8")
             const products = JSON.parse(data)
             if (products.some(e => e.title === product.title)) {
@@ -21,7 +22,7 @@ class Contenedor {
                     stock: product.stock? product.stock : "Ilimitado"
                 }
                 products.push(dataObj)
-                try {
+                try { 
                     await fs.promises.writeFile("./files/products.txt",JSON.stringify(products,null,2))
                     return {status:"success", message:"Producto agregado!", payload:dataObj}
                 } catch (err){
@@ -51,7 +52,7 @@ class Contenedor {
     }
 
     async getProductById(id) {
-        try {
+        try {  
             let data = await fs.promises.readFile("./files/products.txt","utf-8")
             let products = JSON.parse(data)
             let product = products.find(e => e.id==id)
@@ -66,7 +67,7 @@ class Contenedor {
     }
 
     async getAllProducts() {
-        try {
+        try {    
             let data = await fs.promises.readFile("./files/products.txt","utf-8")
             let products = JSON.parse(data)
             if (products) {
@@ -80,7 +81,7 @@ class Contenedor {
     }
 
     async updateProduct(id,body){
-        try{
+        try{     
             let data = await fs.promises.readFile('./files/products.txt','utf-8');
             let products = JSON.parse(data);
             if(!products.some(p=>p.id===id)) {
@@ -88,7 +89,7 @@ class Contenedor {
             } else {
                 Object.assign(products.find(p=> p.id ===id), body)
             }
-            try{
+            try{    
                 await fs.promises.writeFile('./files/products.txt',JSON.stringify(products,null,2));
                 return {status:"success", message:"Producto actualizado", payload: (products.find(p=> p.id ===id))}
             }catch{
@@ -100,11 +101,11 @@ class Contenedor {
     }
 
     async deleteProductById(id) {
-        try {
+        try {  
             let data = await fs.promises.readFile("./files/products.txt","utf-8")
             let products = JSON.parse(data)
             if (products.find((p)=> p.id === id)) {
-                products = products.filter(p => p.id !== id)
+                products = products.filter(p => p.id !== id)  
                 await fs.promises.writeFile("./files/products.txt",JSON.stringify(products,null,2))
                 return {status:"success", message: `Producto N° ${id} eliminado`}
             } else {
@@ -116,7 +117,7 @@ class Contenedor {
     }
 
     async deleteAllProducts() {
-        try {
+        try {  
             await fs.promises.writeFile("./files/products.txt","[]")
             return {status:"success", message: "Productos eliminados"}
         }catch (err){

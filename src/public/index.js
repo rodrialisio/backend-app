@@ -24,7 +24,7 @@ inputButton.addEventListener("click", ()=> {
 
 socket.on("messagelog",data => {
     let p = document.getElementById("home-chat-message-log")
-    let messages = data.map(message => {
+    let messages = data.payload.map(message => {
         return `<div class="chat-log-message">
                     <span class="chat-log-message-user">${message.email} - </span>
                     <span class="chat-log-message-time">${message.time}: </span>
@@ -33,6 +33,11 @@ socket.on("messagelog",data => {
     }).join("")
     p.innerHTML= messages
 }) 
+
+let clearLogButton = document.getElementById("clear-log-button")
+clearLogButton.addEventListener("click", ()=> {
+    socket.emit("clearLog")
+})
 
 socket.on("updateProducts", data => {
     let products = data.payload
@@ -49,10 +54,9 @@ socket.on("updateProducts", data => {
 })
 
 document.addEventListener("submit", e => {
-    /* fetch("templates/productTable.handlebars") */
     e.preventDefault()
     let form = document.getElementById("productForm")
-    let data = new FormData(form)    
+    let data = new FormData(form)   
     fetch("/api/productos",{
         method: "POST",
         body: data,
@@ -63,6 +67,8 @@ document.addEventListener("submit", e => {
         alert(json.message)
     })
 })
+
+
 
 
 
