@@ -1,5 +1,5 @@
 ACLARACIONES:
-Para requests con firebase y mongo se utiliza el id autogenerado del documento
+Para requests con firebase y mongo se utiliza el id autogenerado del documento.
 Cree un archivo "conf.js" para esta entrega, y mantuve el "config.js" ya creado anteriormente.
 
 CURRENT OPS:
