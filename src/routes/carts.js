@@ -1,23 +1,30 @@
 import express from "express"
-import Carrito from '../classes/carrito.js'
+import {carts} from "../daos/index.js"
+
 const router = express.Router("router")
-const carrito =new Carrito()
 
 router.get("/", (req,res)=> {
-    carrito.getAllCarts().then(result=> {
+    carts.getAll().then(result=> {
+        res.send(result)
+    })
+})
+
+router.get("/:id", (req,res)=> {
+    const id= req.params.id
+    carts.getById(id).then(result=> {
         res.send(result)
     })
 })
 
 router.get("/:id/productos", (req,res)=> {
     const id= req.params.id
-    carrito.getCartProducts(id).then(result=> {
+    carts.getContentById(id).then(result=> {
         res.send(result)
     })
 })
 
 router.post("/",(req,res)=> {                                               
-    carrito.createCart().then(result=>{
+    carts.create().then(result=>{
         res.send(result);
     })
 })
@@ -25,14 +32,22 @@ router.post("/",(req,res)=> {
 router.post("/:id/productos/:id_prod",(req,res)=> {  
     const id= req.params.id
     const id_prod= req.params.id_prod
-    carrito.addProduct(id,id_prod).then(result=>{
+    carts.addContentById(id,id_prod).then(result=>{
+        res.send(result);
+    })
+})
+
+router.post("/productos",(req,res)=> {  
+    const cid= req.body.cid
+    const pid= req.params.pid
+    carts.addContentById(cid,pid).then(result=>{
         res.send(result);
     })
 })
 
 router.delete("/:id",(req,res)=> {                                               
     const id = req.params.id
-    carrito.deleteCartById(id).then(result=>{
+    carts.deleteById(id).then(result=>{
         res.send(result);
     })
 })
@@ -40,7 +55,7 @@ router.delete("/:id",(req,res)=> {
 router.delete("/:id/productos/:id_prod",(req,res)=> {  
     const id= req.params.id
     const id_prod= req.params.id_prod
-    carrito.deleteProduct(id,id_prod).then(result=>{
+    carts.removeContentById(id,id_prod).then(result=>{
         res.send(result);
     })
 })

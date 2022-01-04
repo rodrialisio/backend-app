@@ -3,9 +3,9 @@ import {productDatabase} from "../config.js";
 
 class Contenedor {
     constructor() {
-        productDatabase.schema.hasTable("products").then(result=> {
+        productDatabase.schema.hasTable("productos").then(result=> {
             if (!result) {
-                productDatabase.schema.createTable("products", table => {
+                productDatabase.schema.createTable("productos", table => {
                     table.increments()
                     table.string("title").notNullable()
                     table.string("timestamp").notNullable()
@@ -27,6 +27,9 @@ class Contenedor {
             if (exists) {
                 return {status:"error", message:"el producto ya existe"}
             } else {
+                let timestamp = Date.now()
+                let time = new Date(timestamp)
+                product.timestamp= time.toString()
                 let result = await productDatabase.table("products").insert(product)
                 return {status:"success", message: "producto registrado", payload: result}
             }
@@ -61,6 +64,9 @@ class Contenedor {
         try{
             let exists = await productDatabase.select().table("products").where("id",id).first()
             if (exists) {
+                let timestamp = Date.now()
+                let time = new Date(timestamp)
+                body.timestamp= time.toString()
                 const updated = await productDatabase("products").update(body).where("id",id)
                     return {status:"success", message:"producto actualizado", payload:updated}
             } else {

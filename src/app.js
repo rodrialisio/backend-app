@@ -1,7 +1,6 @@
 import express from "express"
 import cors from "cors";
-//import Contenedor from "./classes/contenedor.js"      //para usar fs
-import Contenedor from "./services/productos.js";
+//import Contenedor from "./services/productos.js";          //para usar mysql
 import Mensajes from "./services/mensajes.js";
 import productRouter from "./routes/products.js"
 import cartRouter from "./routes/carts.js"
@@ -9,6 +8,8 @@ import {engine} from "express-handlebars"
 import {Server} from "socket.io"
 import __dirname from "./utils.js";
 import moment from "moment";
+import mongoose from "mongoose";
+import { products } from "./daos/index.js";
 
 const app = express();
 export const port = process.env.PORT || 8080                           
@@ -17,7 +18,6 @@ const server = app.listen(port, ()=>{
     console.log(`Servidor escuchando en ${port} `)
 })
 
-const contenedor = new Contenedor()
 const mensajes = new Mensajes()
 export const io = new Server(server)
 
@@ -61,8 +61,8 @@ app.get("/productoRandom", async (req,res)=> {
 
 io.on("connection", async socket => {
     console.log(`El socket ${socket.id} se ha conectado.`)
-    let products = await contenedor.getAllProducts()
-    socket.emit("updateProducts", products)
+    let productos = await products.getAll()
+    socket.emit("updateProducts", productos)
     let messages = await mensajes.getMessages()
     socket.emit("messagelog",messages)
     socket.on("message",data=> {
@@ -78,4 +78,6 @@ io.on("connection", async socket => {
         })
     })
 })
+
+
 

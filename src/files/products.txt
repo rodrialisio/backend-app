@@ -5,9 +5,9 @@
     "timestamp": "Wed Dec 08 2021 11:54:04 GMT-0300 (GMT-03:00)",
     "description": "Yerba mate muy aguantadora.",
     "code": "xxxx",
-    "price": "100",
+    "price": "99",
     "thumbnail": "http://localhost:8080/images/1639006912817yerba.jpg",
-    "stock": "Ilimitado"
+    "stock": "33"
   },
   {
     "id": 2,
@@ -17,7 +17,7 @@
     "code": "xxxx",
     "price": 50,
     "thumbnail": "http://localhost:8080/images/1637098594583azucar.jpg",
-    "stock": "Ilimitado"
+    "stock": 2000
   },
   {
     "id": 3,
@@ -27,7 +27,7 @@
     "code": "xxxx",
     "price": 40,
     "thumbnail": "http://localhost:8080/images/1637098635109sal.jpg",
-    "stock": "Ilimitado"
+    "stock": 2000
   },
   {
     "id": 4,
@@ -37,6 +37,16 @@
     "code": "xxxx",
     "price": "500",
     "thumbnail": "http://localhost:8080/images/1637596596292miel.jpg",
-    "stock": "Ilimitado"
+    "stock": 2000
+  },
+  {
+    "id": 5,
+    "title": "caja",
+    "timestamp": "Tue Jan 04 2022 12:49:53 GMT-0300 (GMT-03:00)",
+    "description": "Sirve para cargas pesadas",
+    "code": "xxxx",
+    "price": 600,
+    "thumbnail": "http://localhost:8080/images/1641311393833caja.jpg",
+    "stock": 2000
   }
 ]
