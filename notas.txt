@@ -1,12 +1,11 @@
-ACLARACIONES:
-Para requests con firebase y mongo se utiliza el id autogenerado del documento.
-Cree un archivo "conf.js" para esta entrega, y mantuve el "config.js" ya creado anteriormente.
+ISSUES:
+Faker asigna la misma imagen a los productos aleatorios cuando se generan simultaneamente.
 
 CURRENT OPS:
-entrega
+ready
 
 PENDIENTE:
-mongoose no verifica si el producto existe para agregarlo al carrito
+Mongodb compass no lee la base de datos de atlas
 
 DESEABLE:
 borrar automaticamente de public las imágenes de productos eliminados

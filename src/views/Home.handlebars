@@ -15,18 +15,26 @@
     <button type="button submit" class="btn btn-success">REGISTRAR PRODUCTO</button>  
 </form>
 <div class="no-flex-container">
-        <a href="./api/productos"><button type="button" class="btn btn-primary">Ver lista de productos</button></a>
+    <a href="./api/productos"><button type="button" class="btn btn-primary">Ver lista de productos</button></a>
+</div>
+<div class="no-flex-container">
+        <a href="./api/productos-test"><button type="button" class="btn btn-primary">TEST</button></a>
     </div>
 <div class="no-flex-container">
     <h3>Productos en tiempo real:</h3>
     <div id="home-product-list" class="flex-container"></div>
 </div>
-<h3>Centro de mensajes:</h3>
+<h3>CENTRO DE MENSAJES:</h3>
+<h3 id="compresion"></h3>
 <div>
     <div id="home-chat" class="no-flex-container">
         <div id="home-chat-user-container">
-            <input id="user" type="text" placeholder="Nombre"><br>
-            <input id="email" type="email" placeholder="E-mail"><br>
+            <input id="user-id" type="email" placeholder="E-mail"><br>
+            <input id="user-name" type="text" placeholder="Nombre"><br>
+            <input id="user-last-name" type="text" placeholder="Apellido"><br>
+            <input id="user-age" type="number" placeholder="Edad"><br>
+            <input id="user-alias" type="text" placeholder="Alias"><br>
+            <input id="user-avatar" type="text" placeholder="URL de tu Avatar"><br>
         </div>    
         <input id="message-input" class="no-flex-container" type="text" placeholder="mensaje">
         <button id="message-send-button" type="button" class="btn btn-secondary">Enviar</button>
@@ -35,4 +43,5 @@
     </div>
 </div>
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
 <script type="text/javascript" src="index.js"></script>

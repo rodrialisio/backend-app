@@ -1,14 +1,15 @@
 import express from "express"
 import cors from "cors";
-//import Contenedor from "./services/productos.js";          //para usar mysql
-import Mensajes from "./services/mensajes.js";
+//import Contenedor from "./services/productos.js";          // mysql
+//import Mensajes from "./services/mensajes.js";             // sqlite
+import Mensajes from "./daos/messages/messageMongo.js"
 import productRouter from "./routes/products.js"
+import productTestRouter from "./routes/productsTest.js"
 import cartRouter from "./routes/carts.js"
 import {engine} from "express-handlebars"
 import {Server} from "socket.io"
 import __dirname from "./utils.js";
 import moment from "moment";
-import mongoose from "mongoose";
 import { products } from "./daos/index.js";
 
 const app = express();
@@ -43,6 +44,7 @@ app.use((req,res,next)=> {
 })
 
 app.use("/api/productos", productRouter)
+app.use("/api/productos-test",productTestRouter)
 app.use("/api/carritos", cartRouter)
 
 app.get("/",async function (req,res) {

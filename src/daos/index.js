@@ -1,6 +1,6 @@
 let products
 let carts
-let persistencia = "fileSystem"
+let persistencia = "mongo"
 
 switch (persistencia) {
     case "fileSystem":

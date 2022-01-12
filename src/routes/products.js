@@ -7,8 +7,12 @@ import {products} from "../daos/index.js"
 const router = express.Router("router")
 
 router.get("/", async (req,res)=> {
-    products.getAll().then(result=> {
-        res.send(result)
+    products.getAll().then(products=> {
+        if (products.status==="success") {
+            res.render("Products",{lista: JSON.parse(JSON.stringify(products.payload))})
+        } else {
+            res.render("Products",{lista: []})
+        }
     })
 })
 

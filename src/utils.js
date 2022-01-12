@@ -1,5 +1,6 @@
 import { fileURLToPath } from "url"
 import { dirname } from "path"
+//import faker from "faker"
 
 const filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(filename)
@@ -19,3 +20,4 @@ function makeId() {
     }
     return id
 }
+

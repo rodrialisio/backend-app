@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import config from "../conf.js"
+
 mongoose.connect(config.mongo.baseUrl, {
     useNewUrlParser: true,
     useUnifiedTopology:true
