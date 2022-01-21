@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(106, 231, 173);
+    background-color: rgb(255, 203, 134);
 }
 
 button {
@@ -11,11 +11,14 @@ h3 {
     padding-left: 100px;
 }
 
+h6 {
+    color:rgb(46, 4, 161)
+}
+
 .flex-container {
     padding-top:20px;
     padding-left: 50px;
     padding-right: 50px;
-    padding-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
     text-align: center;
@@ -24,7 +27,6 @@ h3 {
 .no-flex-container {
     margin: 10px;
     padding-top:20px;
-    padding-bottom: 20px;
     padding-left: 100px;
     justify-content: center;
 }

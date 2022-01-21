@@ -1,5 +1,27 @@
+<div class="flex-container">
+    <form id="registerForm" name="registerForm" class="no-flex-container">
+        <h6>NUEVO USUARIO:</h6>
+        <input id="register-user-id" name="register-user-id" type="email" placeholder="E-mail" required><br>
+        <input id="register-user-name" name="register-user-name" type="text" placeholder="Nombre" required><br>
+        <input id="register-user-last-name" name="register-user-last-name" type="text" placeholder="Apellido" required><br>
+        <input id="register-user-age" name="register-user-age" type="number" placeholder="Edad" required><br>
+        <input id="register-user-alias" name="register-user-alias" type="text" placeholder="Alias" required><br>
+        <input id="register-user-avatar" name="register-user-avatar" type="text" placeholder="URL de tu Avatar" required><br>
+        <input id="register-user-password" name="register-user-password" type="password" placeholder="Contraseña" required><br>
+        <input id="register-user-repeat-password" name="register-user-repeat-password" type="password" placeholder="Repite tu contraseña" required><br>
+        <button type="button submit" class="btn btn-success">Registrarse</button>
+    </form>
+    <form id="loginForm" name="loginForm" class="no-flex-container">
+        <h6>LOGIN:</h6>
+        <label for="login-user-id">Email:</label><br>
+        <input name="login-user-id" type="text" required><br>
+        <label for="login-user-password">Contraseña:</label><br>
+        <input name="login-user-password" type="password" required><br>
+        <button type="button submit" class="btn btn-success">Ingresar</button>
+    </form>
+</div>
 <form id="productForm" name="productForm" class="no-flex-container">
-    <h3>Nuevo producto:</h3>
+    <h6>NUEVO PRODUCTO:</h6>
     <label for="title">Tipo</label><br>
     <input name="title" required><br>
     <label for="description">Descripción</label><br>
@@ -12,36 +34,15 @@
     <input name="stock" type="number" required><br>
     <label for="image">Foto</label><br>
     <input name="image" type="file" required><br>
-    <button type="button submit" class="btn btn-success">REGISTRAR PRODUCTO</button>  
+    <button type="button submit" class="btn btn-success">REGISTRAR PRODUCTO</button>
+    <a href="./api/productos"><button  type="button" class="btn btn-primary">Ver lista de productos</button></a>
+    <a href="./api/productos-test"><button type="button" class="btn btn-primary">TEST</button></a>
 </form>
 <div class="no-flex-container">
-    <a href="./api/productos"><button type="button" class="btn btn-primary">Ver lista de productos</button></a>
-</div>
-<div class="no-flex-container">
-        <a href="./api/productos-test"><button type="button" class="btn btn-primary">TEST</button></a>
-    </div>
-<div class="no-flex-container">
-    <h3>Productos en tiempo real:</h3>
+    <h6>PRODUCTOS EN TIEMPO REAL:</h6>
     <div id="home-product-list" class="flex-container"></div>
 </div>
-<h3>CENTRO DE MENSAJES:</h3>
-<h3 id="compresion"></h3>
-<div>
-    <div id="home-chat" class="no-flex-container">
-        <div id="home-chat-user-container">
-            <input id="user-id" type="email" placeholder="E-mail"><br>
-            <input id="user-name" type="text" placeholder="Nombre"><br>
-            <input id="user-last-name" type="text" placeholder="Apellido"><br>
-            <input id="user-age" type="number" placeholder="Edad"><br>
-            <input id="user-alias" type="text" placeholder="Alias"><br>
-            <input id="user-avatar" type="text" placeholder="URL de tu Avatar"><br>
-        </div>    
-        <input id="message-input" class="no-flex-container" type="text" placeholder="mensaje">
-        <button id="message-send-button" type="button" class="btn btn-secondary">Enviar</button>
-        <div id="home-chat-message-log" class="no-flex-container"></div>
-        <button ID="clear-log-button" class="btn btn-warning">CLEAR LOG</button>
-    </div>
-</div>
+<div class="no-flex-container"></div> 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
 <script type="text/javascript" src="index.js"></script>

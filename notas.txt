@@ -1,10 +1,10 @@
 ISSUES:
-Faker asigna la misma imagen a los productos aleatorios cuando se generan simultaneamente.
 
 CURRENT OPS:
-ready
 
 PENDIENTE:
+aplicar location.replace()
+
 Mongodb compass no lee la base de datos de atlas
 
 DESEABLE:

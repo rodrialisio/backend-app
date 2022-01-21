@@ -1,81 +1,60 @@
 const socket = io()
 
-let userId = document.getElementById("user-id")
-let userName = document.getElementById("user-name")
-let userLastName = document.getElementById("user-last-name")
-let userAge = document.getElementById("user-age")
-let userAlias = document.getElementById("user-alias")
-let userAvatar = document.getElementById("user-avatar")
-let input = document.getElementById("message-input")
-let inputButton = document.getElementById("message-send-button")
-let messageCompression= document.getElementById("compresion")
+let registerForm = document.getElementById("registerForm")
+let loginForm = document.getElementById("loginForm")
 
-function sendMessage(text) {
-    if (userId.value.includes("@") && userName.value && userLastName.value && userAge.value && userAlias.value && userAvatar.value) {
-        socket.emit("message", {
-            author: {
-                id: userId.value,
-                nombre: userName.value,
-                apellido: userLastName.value,
-                edad: userAge.value,
-                alias: userAlias.value,
-                avatar: userAvatar.value
-            },
-            text: input.value
+let productForm= document.getElementById("productForm")
+
+registerForm.addEventListener("submit",(e)=> {
+    e.preventDefault()
+    if(document.getElementById("register-user-password").value === document.getElementById("register-user-repeat-password").value) {
+        let info = new FormData(registerForm)
+        let sendObject= {
+            id: info.get("register-user-id"),
+            name: info.get("register-user-name"),
+            last_name: info.get("register-user-last-name"),
+            age: info.get("register-user-age"),
+            alias: info.get("register-user-alias"),
+            avatar: info.get("register-user-avatar"),
+            password: info.get("register-user-password")
+        }
+        fetch("/register-user", {
+            method:"POST",
+            body: JSON.stringify(sendObject),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(result => { 
+            return result.json()
+        }).then (json=> {
+            console.log("respuesta",json)
+            alert(json.message)
+            if (json.status==="success") registerForm.reset()
         })
-        input.value=""
     } else {
-        alert(`Por favor completa tus datos para chatear. Tu dirección de e-mail debe incluir "@"`)
-    }    
-}
-
-input.addEventListener("keyup",(e)=> {
-    if (e.key==="Enter" && input.value !="") {sendMessage()}
-})
-
-inputButton.addEventListener("click", ()=> {
-    if (input.value !="") {sendMessage()}
-})
-
-socket.on("messagelog",data => {
-    let p = document.getElementById("home-chat-message-log")
-
-    const authorSchema= new normalizr.schema.Entity("autores")
-    const messageSchema= new normalizr.schema.Entity("mensajes",{
-        author: authorSchema
-    })
-    const chatSchema= new normalizr.schema.Entity("chatLogs",{
-        mensajes: [messageSchema]
-    })
-
-    const denormalizedData = normalizr.denormalize(data.payload.result,chatSchema,data.payload.entities)
-
-    console.log(data)
-    console.log(denormalizedData)
-
-    let normalizada= JSON.stringify(data.payload).length
-    let desnormalizada = denormalizedData? JSON.stringify(denormalizedData).length : 2
-    const compresion= Math.floor(normalizada/desnormalizada*100)+"%"
-    console.log(`normalizada:${normalizada} desnormalizada:${desnormalizada} compresión al ${compresion}`)
-    messageCompression.innerHTML= `(compresión al ${compresion})`
-    
-    if (denormalizedData) {
-        let messages = denormalizedData.mensajes.map(message => {
-            return `<div class="chat-log-message">
-                        <span class="chat-log-message-user">${message.author.id} - </span>
-                        <span class="chat-log-message-time">${message.time}: </span>
-                        <span class="chat-log-message-text">${message.text}</span>
-                    </div>`
-        }).join("")
-        p.innerHTML= messages
-    } else {
-        p.innerHTML= "No hay mensajes"
+        alert("Las contraseñas no coinciden")
     }
-}) 
+})
 
-let clearLogButton = document.getElementById("clear-log-button")
-clearLogButton.addEventListener("click", ()=> {
-    socket.emit("clearLog")
+loginForm.addEventListener("submit", (e)=> {
+    e.preventDefault()
+    let info = new FormData(loginForm)
+    let sendObject= {
+        id: info.get("login-user-id"),
+        password: info.get("login-user-password")
+    }
+    fetch("/login-user", {
+        method:"POST",
+        body: JSON.stringify(sendObject),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(result => { 
+        return result.json()
+    }).then (json=> {
+        if (json.status==="error") alert(json.message)
+        else location.replace("./pages/chat.html")
+    })
 })
 
 socket.on("updateProducts", data => {
@@ -92,10 +71,9 @@ socket.on("updateProducts", data => {
 
 })
 
-document.addEventListener("submit", e => {
+productForm.addEventListener("submit", e => {
     e.preventDefault()
-    let form = document.getElementById("productForm")
-    let data = new FormData(form)   
+    let data = new FormData(productForm)   
     fetch("/api/productos",{
         method: "POST",
         body: data,
