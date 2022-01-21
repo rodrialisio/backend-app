@@ -27,12 +27,12 @@ const server = app.listen(port, ()=>{
 const baseSession = (session({
     store: MongoStore.create({
         mongoUrl:"mongodb+srv://rodrialisio:asd456@cluster0.a2jas.mongodb.net/sesiones?retryWrites=true&w=majority",
-        ttl:10
+        ttl:600
     }),
     secret:"password",
     resave: true,
     saveUninitialized: true,
-    cookie: {maxAge:10}
+    cookie: {maxAge:600000}
 
 }))
 
