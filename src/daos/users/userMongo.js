@@ -5,19 +5,21 @@ mongoose.connect("mongodb+srv://rodrialisio:asd456@cluster0.a2jas.mongodb.net/ec
     useUnifiedTopology:true
 })
 
+export const users = mongoose.model("usuarios", mongoose.Schema({
+    id: {type:String,required:true},
+    name: {type:String,required:true},
+    last_name: {type:String,required:true},
+    age: {type:Number,required:true},
+    alias: {type:String,required:true},
+    avatar: {type:String,required:true},
+    password: {type:String,required:true}
+},{
+    timestamps: true
+}))
+
 export default class UserMongo {
     constructor() {
-        this.collection= mongoose.model("usuarios", mongoose.Schema({
-            id: {type:String,required:true},
-            name: {type:String,required:true},
-            last_name: {type:String,required:true},
-            age: {type:Number,required:true},
-            alias: {type:String,required:true},
-            avatar: {type:String,required:true},
-            password: {type:String,required:true}
-        },{
-            timestamps: true
-        }))
+        this.collection = users
     }
 
     registerUser = async (userData)=> {
@@ -48,4 +50,6 @@ export default class UserMongo {
         }
     }
 }
+
+
 

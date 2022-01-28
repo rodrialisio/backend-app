@@ -15,6 +15,7 @@ import { products } from "./daos/index.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import ios from "socket.io-express-session"
+import initializePassportConfig from "./passport-config.js";
 import passport from "passport";
 
 const app = express();
@@ -33,11 +34,10 @@ const baseSession = (session({
     resave: true,
     saveUninitialized: true,
     cookie: {maxAge:600000}
-
 }))
 
 const mensajes = new Mensajes()
-const users = new Usuarios()
+export const users = new Usuarios()
 export const io = new Server(server)
 io.use(ios(baseSession))
 
@@ -67,17 +67,35 @@ app.use("/api/productos", productRouter)
 app.use("/api/productos-test",productTestRouter)
 app.use("/api/carritos", cartRouter)
 
+initializePassportConfig()
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.get("/auth/facebook", passport.authenticate("facebook"/* ,{scope:["email","displayName","photos"]} */),(req,res)=> {
+})
+
+app.get("/auth/facebook/callback", passport.authenticate("facebook",{failureRedirect:"/facebook-login-fail"}), (req,res)=>{
+    req.session.user = {
+        userId: req.user.id,
+        userName: req.authInfo.displayName,
+        userPicture: req.authInfo.picture.value
+    }
+    res.redirect("/pages/chat.html")
+})
+
+app.get("/facebook-login-fail", (req,res)=> {  
+    res.send({error:"Hubo un error de conexión!"})
+})
+
 app.get("/",async function (req,res) {
     res.render("Home")
 })
 
 app.get("/logout", (req,res)=> {
-    alert(`Hasta lugo ${req.session.user.userId}`)
-    req.session= null   
+    req.logout()
 })
 
 app.get("/current-user", async (req,res)=> {
-    console.log("user: ", req.session.user)
     res.send(req.session.user)
 })
 
@@ -88,7 +106,6 @@ app.post("/register-user", async (req,res)=> {
 })
 
 app.post("/login-user", async (req,res)=> {
-    console.log(req.body)
     let {id, password} = req.body
     if (!id || !password) return res.status(400).send({message:"datos incompletos"})
     let search = await users.getUserById(id)

@@ -10,17 +10,15 @@ fetch("/current-user").then(async (result)=> {
         }
         let saludo = document.getElementById("saludo")
         saludo.innerHTML=`Bienvenido ${user.userName}`
+        let userPicture = document.getElementById("user-picture")
+        userPicture.setAttribute("src",user.userPicture)
+        let userId= document.getElementById("user-id")
+        userId.innerHTML= user.userId
     } catch (err) {
         location.replace("/")
     }
 })
 
-let userId = document.getElementById("user-id")
-let userName = document.getElementById("user-name")
-let userLastName = document.getElementById("user-last-name")
-let userAge = document.getElementById("user-age")
-let userAlias = document.getElementById("user-alias")
-let userAvatar = document.getElementById("user-avatar")
 let input = document.getElementById("message-input")
 let inputButton = document.getElementById("message-send-button")
 let logOutButton = document.getElementById("log-out-button")

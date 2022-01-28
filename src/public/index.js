@@ -2,6 +2,7 @@ const socket = io()
 
 let registerForm = document.getElementById("registerForm")
 let loginForm = document.getElementById("loginForm")
+let loginFacebookButton = document.getElementById("login-facebook-button")
 
 let productForm= document.getElementById("productForm")
 
@@ -26,10 +27,13 @@ registerForm.addEventListener("submit",(e)=> {
             }
         }).then(result => { 
             return result.json()
-        }).then (json=> {
-            console.log("respuesta",json)
-            alert(json.message)
-            if (json.status==="success") registerForm.reset()
+        }).then (json=> {    
+            if (json.status==="success") {
+                alert(json.message)
+                registerForm.reset()
+            } else {
+                location.replace("./pages/signupError.html")
+            }
         })
     } else {
         alert("Las contraseñas no coinciden")
@@ -52,9 +56,15 @@ loginForm.addEventListener("submit", (e)=> {
     }).then(result => { 
         return result.json()
     }).then (json=> {
-        if (json.status==="error") alert(json.message)
+        if (json.status==="error") {
+            location.replace("./pages/loginError.html")
+        }
         else location.replace("./pages/chat.html")
     })
+})
+
+loginFacebookButton.addEventListener("click", ()=> {
+    location = "http://localhost:8080/auth/facebook"
 })
 
 socket.on("updateProducts", data => {
