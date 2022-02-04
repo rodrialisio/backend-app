@@ -1,8 +1,8 @@
 import { normalize, denormalize, schema } from "normalizr"
 import mongoose from "mongoose"
+import config from "../../conf.js"
 
-
-mongoose.connect("mongodb+srv://rodrialisio:asd456@cluster0.a2jas.mongodb.net/ecommerce?retryWrites=true&w=majority", {
+mongoose.connect(config.mongo.baseUrl, {
     useNewUrlParser: true,
     useUnifiedTopology:true
 })

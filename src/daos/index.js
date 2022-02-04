@@ -1,6 +1,9 @@
+import dotenv from "dotenv"
+dotenv.config()
+
 let products
 let carts
-let persistencia = "mongo"
+let persistencia = process.env.PERSISTENCIA
 
 switch (persistencia) {
     case "fileSystem":

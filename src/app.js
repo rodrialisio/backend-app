@@ -7,6 +7,7 @@ import Usuarios from "./daos/users/userMongo.js"
 import productRouter from "./routes/products.js"
 import productTestRouter from "./routes/productsTest.js"
 import cartRouter from "./routes/carts.js"
+import randomsRouter from "./routes/randoms.js"
 import {engine} from "express-handlebars"
 import {Server} from "socket.io"
 import __dirname from "./utils.js";
@@ -17,9 +18,16 @@ import MongoStore from "connect-mongo";
 import ios from "socket.io-express-session"
 import initializePassportConfig from "./passport-config.js";
 import passport from "passport";
+import minimist from "minimist";
+import dotenv from "dotenv"
+import {exec, execFile, spawn} from "child_process"
+
+dotenv.config()
 
 const app = express();
-export const port = process.env.PORT || 8080                           
+
+const minimizedArgs= minimist(process.argv) 
+export const port = minimizedArgs.port || 8080
 
 const server = app.listen(port, ()=>{
     console.log(`Servidor escuchando en ${port} `)
@@ -27,10 +35,10 @@ const server = app.listen(port, ()=>{
 
 const baseSession = (session({
     store: MongoStore.create({
-        mongoUrl:"mongodb+srv://rodrialisio:asd456@cluster0.a2jas.mongodb.net/sesiones?retryWrites=true&w=majority",
+        mongoUrl: process.env.MONGO_URL_SESSIONS,
         ttl:600
     }),
-    secret:"password",
+    secret:process.env.SECRET,
     resave: true,
     saveUninitialized: true,
     cookie: {maxAge:600000}
@@ -66,6 +74,7 @@ app.use((req,res,next)=> {
 app.use("/api/productos", productRouter)
 app.use("/api/productos-test",productTestRouter)
 app.use("/api/carritos", cartRouter)
+app.use("/api/randoms", randomsRouter)
 
 initializePassportConfig()
 app.use(passport.initialize())
@@ -97,6 +106,19 @@ app.get("/logout", (req,res)=> {
 
 app.get("/current-user", async (req,res)=> {
     res.send(req.session.user)
+})
+
+app.get("/info", (req,res)=> {
+    const info= {
+        entry_arg: minimizedArgs._.slice(2),
+        platform: process.platform,
+        node_version: process.version,
+        reserved_memory: process.memoryUsage(),
+        execution_path: process.execPath,
+        process_id: process.pid,
+        proyect_folder: process.cwd()
+    }
+    res.render("info",info)
 })
 
 app.post("/register-user", async (req,res)=> {
@@ -144,6 +166,3 @@ io.on("connection", async socket => {
         })
     })
 })
-
-
-

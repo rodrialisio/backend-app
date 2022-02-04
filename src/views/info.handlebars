@@ -1,0 +1,18 @@
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Configuración</h5>
+    <h6 class="card-text"> Argumentos de entrada: {{this.entry_arg}} </h6>
+    <h6 class="card-text"> Plataforma: {{this.platform}} </h6>
+    <h6 class="card-text"> Versión de Node: {{this.node_version}} <h6>
+    <h6 class="card-text"> Memoria reservada:</h6>
+    <p>- rss: {{this.reserved_memory.rss}}</p> 
+    <p>- heap total: {{this.reserved_memory.heapTotal}}</p>
+    <p>- heap used: {{this.reserved_memory.heapUsed}}</p>
+    <p>- external: {{this.reserved_memory.external}}</p>
+    <p>- array buffers: {{this.reserved_memory.arrayBuffers}}</p>
+    <h6 class="card-text"> Path de ejecución: {{this.execution_path}} </h6>
+    <h6 class="card-text"> Process Id: {{this.process_id}} </h6>
+    <h6 class="card-text"> Carpeta de proyecto: {{this.proyect_folder}} </h6>
+  </div>
+  <a href="/"><button type="button" class="btn btn-secondary">HOME</button></button></a>
+</div>

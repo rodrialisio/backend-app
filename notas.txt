@@ -1,8 +1,9 @@
-ISSUES:
-utilizar parametros de scope con passport.authenticate provocaba que en ocasiones (aparentemente aleatorias) al ingresar me envie a una pantalla de error de facebook ("Lo sentimos hubo un error vuelve mas tarde"), por eso lo dejo comentado y trabajo sin ese scope.
+Comments:
+El botón INFO en la página home lleva a la view con datos de configuración
+la tercera consigna no utiliza views (no era solicitado)
 
 CURRENT OPS:
-pasando todo a usersmongo
+consigna 3
 
 PENDING:
 Mongodb compass no lee la base de datos de atlas
