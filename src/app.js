@@ -20,18 +20,34 @@ import initializePassportConfig from "./passport-config.js";
 import passport from "passport";
 import minimist from "minimist";
 import dotenv from "dotenv"
-import {exec, execFile, spawn} from "child_process"
+import cluster from "cluster"
+import core from "os"
+import os from "os"
 
 dotenv.config()
 
 const app = express();
 
 const minimizedArgs= minimist(process.argv) 
-export const port = minimizedArgs.port || 8080
+export let port = minimizedArgs.port || 8080
 
-const server = app.listen(port, ()=>{
-    console.log(`Servidor escuchando en ${port} `)
-})
+let server
+
+if (cluster.isMaster) {
+    console.log(`proceso primario - pid: ${process.pid}`)
+    for (let i=0; i<core.cpus().length; i++) {
+        cluster.fork()
+    }
+    cluster.on("exit",(worker,code,signal)=> {
+        console.log(`worker ${worker.process.pid} caído`)
+        cluster.fork()
+        console.log(`worker restaurado`)
+    })
+} else {
+    server = app.listen(port, ()=>{
+        console.log(`Servidor worker pid: ${process.pid} escuchando en ${port} `)
+    })
+}
 
 const baseSession = (session({
     store: MongoStore.create({
@@ -116,7 +132,8 @@ app.get("/info", (req,res)=> {
         reserved_memory: process.memoryUsage(),
         execution_path: process.execPath,
         process_id: process.pid,
-        proyect_folder: process.cwd()
+        proyect_folder: process.cwd(),
+        cpus: os.cpus().length
     }
     res.render("info",info)
 })

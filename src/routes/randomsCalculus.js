@@ -7,7 +7,9 @@ for (let i=0; i<cantidad; i++) {
     } else {
         numbers[num]=1
     }
+
 }
+
 process.send(numbers)
 
 

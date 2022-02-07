@@ -1,9 +1,7 @@
 Comments:
-El botón INFO en la página home lleva a la view con datos de configuración
-la tercera consigna no utiliza views (no era solicitado)
+
 
 CURRENT OPS:
-consigna 3
 
 PENDING:
 Mongodb compass no lee la base de datos de atlas
@@ -22,4 +20,6 @@ PARA IMPLEMENTAR EN GLITCH:
 PARA USAR VIEWS DEL FRONT:
 1-en la ruta products.js en la ruta get "/" reemplazar lineas de res.render por res.send
 
-
+Clusters:
+taskkill /pid 9972 /f
+tasklist /fi "imagename eq node.exe"
