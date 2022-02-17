@@ -20,33 +20,39 @@
         <button type="button submit" class="btn btn-success">Ingresar</button><br>
         <button id="login-facebook-button" type="button" class="btn btn-primary">Log in with Facebook</button>
     </form>
-    
 </div>
-<form id="productForm" name="productForm" class="no-flex-container">
-    <h6>NUEVO PRODUCTO:</h6>
-    <label for="title">Tipo</label><br>
-    <input name="title" required><br>
-    <label for="description">Descripción</label><br>
-    <input name="description" required><br>
-    <label for="code">Código</label><br>
-    <input name="code" required><br>
-    <label for="price">Precio</label><br>
-    <input name="price" type="number" required><br>
-    <label for="stock">Stock</label><br>
-    <input name="stock" type="number" required><br>
-    <label for="image">Foto</label><br>
-    <input name="image" type="file" required><br>
-    <button type="button submit" class="btn btn-success">REGISTRAR PRODUCTO</button>
-    <a href="./api/productos"><button  type="button" class="btn btn-secondary">Ver lista de productos</button></a>
-    <a href="./api/productos-test"><button type="button" class="btn btn-secondary">TEST</button></a>
-    <a href="./info"><button type="button" class="btn btn-secondary">INFO</button></a>
-    <a href="./api/randoms"><button type="button" class="btn btn-secondary">Randoms</button></a>
-</form>
-<div class="no-flex-container">
-    <h6>PRODUCTOS EN TIEMPO REAL:</h6>
-    <div id="home-product-list" class="flex-container"></div>
+<div class="row">
+    <div class="col columna-izquierda">
+        <form id="productForm" name="productForm" class="no-flex-container">
+            <h6>NUEVO PRODUCTO:</h6>
+            <label for="title">Tipo</label><br>
+            <input name="title" required><br>
+            <label for="description">Descripción</label><br>
+            <input name="description" required><br>
+            <label for="code">Código</label><br>
+            <input name="code" required><br>
+            <label for="price">Precio</label><br>
+            <input name="price" type="number" required><br>
+            <label for="stock">Stock</label><br>
+            <input name="stock" type="number" required><br>
+            <label for="image">Foto</label><br>
+            <input name="image" type="file" required><br>
+            <button type="button submit" class="btn btn-success">REGISTRAR PRODUCTO</button>
+            <a href="./api/productos"><button  type="button" class="btn btn-secondary">Ver lista de productos</button></a>
+            <a href="./api/productos-test"><button type="button" class="btn btn-secondary">TEST</button></a>
+            <a href="./info"><button type="button" class="btn btn-secondary">INFO</button></a>
+            <a href="./api/randoms"><button type="button" class="btn btn-secondary">Randoms</button></a>
+        </form>
+    </div>
+    <div class="col columna-derecha">
+        <div class="no-flex-container">
+            <h6>PRODUCTOS EN TIEMPO REAL:</h6>
+            <div id="home-product-list" class="flex-container"></div>
+        </div>
+        <div class="no-flex-container"></div> 
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
 </div>
-<div class="no-flex-container"></div> 
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
-<script type="text/javascript" src="index.js"></script>
+

@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import config from "../conf.js"
+import {logger} from "../config.js"
 
 mongoose.connect(config.mongo.baseUrl, {
     useNewUrlParser: true,
@@ -20,12 +21,14 @@ export default class MongoContainer {
                 product.id = 1
             }
             if (products.find(item=> item.title == product.title)) {
+                logger.error("el producto ya existe")
                 return {status:"error", message: "el producto ya existe"}
             } else {
                 let result = await this.collection.create(product)
                 return {status:"success", message: "producto registrado", payload: result}
             }
         } catch(err) {
+            logger.error(err)
             return {status:"error", message: err}
         }
     }
@@ -42,7 +45,7 @@ export default class MongoContainer {
             let result = await this.collection.create(cart)
             return {status:"success", message: "carrito creado", payload: result }           
         } catch (err) {
-            console.log(err)
+            logger.error(err)
             return {status:"error", message: err}
         }
     }
@@ -52,6 +55,7 @@ export default class MongoContainer {
             let data = await this.collection.find()
             return {status:"success", payload: data}
         } catch(err) {
+            logger.error(err)
             return {status:"error", message: err}
         }
     }
@@ -62,10 +66,11 @@ export default class MongoContainer {
             if (search.length>0) {
                 return {status:"success", message: "id encontrado", payload: search}
             } else {
+                logger.error("no se encontró el id")
                 return {status:"error", message: "no se encontró el id"}
             }
         } catch (err) {
-            console.log(err)
+            logger.error(err)
             return {status:"error", message: err}
         }
     }
@@ -76,9 +81,11 @@ export default class MongoContainer {
             if (search.length>0) {
                 return {status:"success", payload: search[0].products}
             } else {
+                logger.error("no se encontró el id")
                 return {status:"error", message: "no se encontró el id"}
             }
         } catch (err) {
+            logger.error(err)
             return {status:"error", message: err}
         }
     }
@@ -93,9 +100,11 @@ export default class MongoContainer {
                 let result = await this.collection.find({_id:id})    
                 return {status:"success", message:"producto actualizado", payload:result}
             } else {
+                logger.error("no se encontró el id")
                 return {status:"error", message:"no se encontró el id"}
             }
         }catch(err){
+            logger.error(err)
             return {status:"error",message:err}
         }
     }
@@ -107,9 +116,11 @@ export default class MongoContainer {
                 await this.collection.deleteOne({_id:id})        
                 return {status:"success", message: `item ${id} eliminado`}
             } else {
+                logger.error("no se encontró el id")
                 return {status:"error", message:"no se encontró el id"}
             }
         } catch (err) {
+            logger.error(err)
             return {status:"error",message:err}
         }
     }

@@ -1,4 +1,41 @@
 Comments:
+La ruta info corre con gzip
+la configuración de log4js está en config.js
+
+Análisis comparativo del test con --prof utilizando artillery (50 arrivals, 20 GET requests x arrival a la ruta /info):
+
+1) Test sin console.log:
+comandos:
+node --prof app.js
+artillery quick --count 50 -n 20  "http://localhost:8080/info" > result_sin_log.txt
+(ciero app y renombro archivo isolate... a test_sin_log.log )
+node --prof-process test_sin_log.log > explicacion_test_sin_log.txt
+(habilito el console.log de la página info)
+
+2) Test con console.log:
+comandos:
+node --prof app.js
+artillery quick --count 50 -n 20  "http://localhost:8080/info" > result_con_log.txt
+(ciero app y renombro archivo isolate... a test_con_log.log )
+node --prof-process test_con_log.log > explicacion_test_con_log.txt
+
+Conclusiones:
+Al solicitarse el console.log se realizan menos requests pero tienen un porcentaje similar de respuestas (CON: 61 de 71 = 85% vs SIN: 72 de 85 = 84%)
+Como se ve a continuación, los tiempos de demoras de respuesta a request (medidos en ticks)son tambien mayores cuando se solicita el console.log:
+
+Summary de Test sin console.log:
+   ticks  total  nonlib   name
+     12    0.1%  100.0%  JavaScript
+      0    0.0%    0.0%  C++
+     10    0.1%   83.3%  GC
+  12198   99.9%          Shared libraries
+
+Summary de Test con console.log:
+   ticks  total  nonlib   name
+     15    0.0%  100.0%  JavaScript
+      0    0.0%    0.0%  C++
+     16    0.0%  106.7%  GC
+  39416  100.0%          Shared libraries
 
 
 CURRENT OPS:
@@ -17,9 +54,26 @@ PARA IMPLEMENTAR EN GLITCH:
 3- en services/upload agregar __dirname a la ruta de destination
 4-en package.json setear start en "babel-node src/app.js"
 
-PARA USAR VIEWS DEL FRONT:
-1-en la ruta products.js en la ruta get "/" reemplazar lineas de res.render por res.send
-
 Clusters:
 taskkill /pid 9972 /f
 tasklist /fi "imagename eq node.exe"
+
+pm2:
+pm2 start app.js //fork
+pm2 start app.js -i max //cluster con todos los procesadores
+pm2 delete all
+pm2 stop app.js
+pm2 list
+pm2 monit
+
+nginx
+en cmd: 
+C://nginx-1-21-6>start nginx.exe
+abrir localhost:80
+
+frenar proceso:
+nginx.exe -s stop
+
+verificar que esta bien configurado:
+nginx.exe -t
+

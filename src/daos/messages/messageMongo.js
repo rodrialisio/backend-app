@@ -1,6 +1,7 @@
 import { normalize, denormalize, schema } from "normalizr"
 import mongoose from "mongoose"
 import config from "../../conf.js"
+import {logger} from "../../config.js"
 
 mongoose.connect(config.mongo.baseUrl, {
     useNewUrlParser: true,
@@ -48,7 +49,7 @@ export default class MessageMongo {
 
             return {status:"success", message:"mensaje agregado", payload: normalizedData}
         } catch (err) {
-            console.log(err)
+            logger.error(err)
             return {status:"error", message: err}
         }
     }
@@ -77,7 +78,7 @@ export default class MessageMongo {
 
             return {status:"success", message:"mensajes encontrados", payload: normalizedData}
         } catch (err) {
-            console.log(err)
+            logger.error(err)
             return {status:"error", message: err}
         }
     }
@@ -88,7 +89,7 @@ export default class MessageMongo {
             const messages = await this.collection.find()
             return {status:"success", message:"mensajes borrados", payload:messages}
         } catch (err) {
-            console.log(err)
+            logger.error(err)
             return {status:"error", message: err}
         }
     }

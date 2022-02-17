@@ -1,0 +1,4 @@
+[2022-02-16T17:54:14.746] [WARN] dev - ruta inexistente! Método: GET Ruta: /pages/undefined
+[2022-02-16T19:02:40.715] [WARN] dev - ruta inexistente! Método: GET Ruta: /favicon.ico
+[2022-02-17T15:25:13.673] [WARN] dev - ruta inexistente! Método: GET Ruta: /favicon.ico
+[2022-02-17T17:55:10.259] [WARN] dev - ruta inexistente! Método: GET Ruta: /newPet?petName=pupi&petPassword=123

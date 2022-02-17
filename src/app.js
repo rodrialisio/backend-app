@@ -22,30 +22,40 @@ import minimist from "minimist";
 import dotenv from "dotenv"
 import cluster from "cluster"
 import core from "os"
-import os from "os"
+import {cpus} from "os"
+import compression from "compression"
+import {logger} from "./config.js"
+import url from "url"
+import bcrypt from "bcrypt"
 
 dotenv.config()
 
 const app = express();
 
-const minimizedArgs= minimist(process.argv) 
+let minimizedArgs= minimist(process.argv) 
 export let port = minimizedArgs.port || 8080
+if (!minimizedArgs.mode) minimizedArgs.mode= "FORK"
 
 let server
-
-if (cluster.isMaster) {
-    console.log(`proceso primario - pid: ${process.pid}`)
-    for (let i=0; i<core.cpus().length; i++) {
-        cluster.fork()
+if (minimizedArgs.mode === "CLUSTER") {  
+    if (cluster.isMaster) {
+        console.log(`proceso primario - pid: ${process.pid}`)
+        for (let i=0; i<core.cpus().length; i++) {
+            cluster.fork()
+        }
+        cluster.on("exit",(worker,code,signal)=> {
+            console.log(`worker ${worker.process.pid} caído`)
+            cluster.fork()
+            console.log(`worker restaurado`)
+        })
+    } else {
+        server = app.listen(port, ()=>{
+            console.log(`Servidor worker pid: ${process.pid} escuchando en ${port} `)
+        })
     }
-    cluster.on("exit",(worker,code,signal)=> {
-        console.log(`worker ${worker.process.pid} caído`)
-        cluster.fork()
-        console.log(`worker restaurado`)
-    })
-} else {
-    server = app.listen(port, ()=>{
-        console.log(`Servidor worker pid: ${process.pid} escuchando en ${port} `)
+} else if (minimizedArgs.mode === "FORK") {
+    server = app.listen(port, ()=> {
+        console.log(`listening in ${port}`)
     })
 }
 
@@ -64,12 +74,6 @@ const mensajes = new Mensajes()
 export const users = new Usuarios()
 export const io = new Server(server)
 io.use(ios(baseSession))
-
-const admin = true
-app.use((req,res,next)=> {
-    req.auth=admin
-    next()
-})
 
 app.use(express.json())
 app.use(baseSession)                                       
@@ -96,7 +100,13 @@ initializePassportConfig()
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.get("/",async function (req,res) {
+    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
+    res.render("Home")
+})
+
 app.get("/auth/facebook", passport.authenticate("facebook"/* ,{scope:["email","displayName","photos"]} */),(req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
 })
 
 app.get("/auth/facebook/callback", passport.authenticate("facebook",{failureRedirect:"/facebook-login-fail"}), (req,res)=>{
@@ -112,19 +122,18 @@ app.get("/facebook-login-fail", (req,res)=> {
     res.send({error:"Hubo un error de conexión!"})
 })
 
-app.get("/",async function (req,res) {
-    res.render("Home")
-})
-
 app.get("/logout", (req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     req.logout()
 })
 
 app.get("/current-user", async (req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     res.send(req.session.user)
 })
 
-app.get("/info", (req,res)=> {
+app.get("/info", compression(), (req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     const info= {
         entry_arg: minimizedArgs._.slice(2),
         platform: process.platform,
@@ -133,18 +142,21 @@ app.get("/info", (req,res)=> {
         execution_path: process.execPath,
         process_id: process.pid,
         proyect_folder: process.cwd(),
-        cpus: os.cpus().length
+        cpus: cluster.isMaster? 1: core.cpus().length
     }
+    console.log(info)
     res.render("info",info)
 })
 
 app.post("/register-user", async (req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     let userData = req.body
     let result = await users.registerUser(userData)
     res.send(result)
 })
 
 app.post("/login-user", async (req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     let {id, password} = req.body
     if (!id || !password) return res.status(400).send({message:"datos incompletos"})
     let search = await users.getUserById(id)
@@ -182,4 +194,9 @@ io.on("connection", async socket => {
             io.emit("messagelog",result)
         })
     })
+})
+
+app.get("*", (req, res, next) => {
+    logger.warn(`ruta inexistente! Método: ${req.method} Ruta: ${req.url}`)
+    next()
 })

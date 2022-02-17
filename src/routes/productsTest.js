@@ -1,9 +1,11 @@
 import express from "express"
 import faker from "faker"
+import {logger} from "../config.js"
 
 const router = express.Router("router")
 
 router.get("/", (req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: /api/productos-test${req.url}`)
     let products = []
     for (let i=0; i<5; i++) {
         products.push({
@@ -16,6 +18,7 @@ router.get("/", (req,res)=> {
             thumbnail: faker.image.food()
         })
     }
+    console.log(`test exitoso`)
     res.render("ProductsTest",{lista:products})
 })
 
