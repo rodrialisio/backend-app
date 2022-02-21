@@ -1,44 +1,7 @@
-Comments:
-La ruta info corre con gzip
-la configuración de log4js está en config.js
-
-Análisis comparativo del test con --prof utilizando artillery (50 arrivals, 20 GET requests x arrival a la ruta /info):
-
-1) Test sin console.log:
-comandos:
-node --prof app.js
-artillery quick --count 50 -n 20  "http://localhost:8080/info" > result_sin_log.txt
-(ciero app y renombro archivo isolate... a test_sin_log.log )
-node --prof-process test_sin_log.log > explicacion_test_sin_log.txt
-(habilito el console.log de la página info)
-
-2) Test con console.log:
-comandos:
-node --prof app.js
-artillery quick --count 50 -n 20  "http://localhost:8080/info" > result_con_log.txt
-(ciero app y renombro archivo isolate... a test_con_log.log )
-node --prof-process test_con_log.log > explicacion_test_con_log.txt
-
-Conclusiones:
-Al solicitarse el console.log se realizan menos requests pero tienen un porcentaje similar de respuestas (CON: 61 de 71 = 85% vs SIN: 72 de 85 = 84%)
-Como se ve a continuación, los tiempos de demoras de respuesta a request (medidos en ticks)son tambien mayores cuando se solicita el console.log:
-
-Summary de Test sin console.log:
-   ticks  total  nonlib   name
-     12    0.1%  100.0%  JavaScript
-      0    0.0%    0.0%  C++
-     10    0.1%   83.3%  GC
-  12198   99.9%          Shared libraries
-
-Summary de Test con console.log:
-   ticks  total  nonlib   name
-     15    0.0%  100.0%  JavaScript
-      0    0.0%    0.0%  C++
-     16    0.0%  106.7%  GC
-  39416  100.0%          Shared libraries
-
-
 CURRENT OPS:
+
+Comments:
+heroku empieza en 1:23
 
 PENDING:
 Mongodb compass no lee la base de datos de atlas

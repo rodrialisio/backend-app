@@ -1,7 +1,6 @@
 import express from "express"
 import upload from "../services/upload.js"
-import { io } from "../app.js"
-import { authMiddleware } from "../utils.js"                  
+import { io } from "../app.js"                 
 import {products} from "../daos/index.js"
 import {logger} from "../config.js"
 
@@ -28,7 +27,7 @@ router.get("/:id", async (req,res)=> {
     }
 })
 
-router.post('/',authMiddleware, upload.single("image"), (req,res)=>{
+router.post('/', upload.single("image"), (req,res)=>{
     logger.info(`Método: ${req.method} Ruta: /api/productos${req.url}`)
     let product = req.body;
     product.price= parseInt(product.price)
@@ -44,7 +43,7 @@ router.post('/',authMiddleware, upload.single("image"), (req,res)=>{
     })
 })
 
-router.put('/:id',authMiddleware, upload.single("image"),(req,res)=>{
+router.put('/:id', upload.single("image"),(req,res)=>{
     logger.info(`Método: ${req.method} Ruta: /api/productos${req.url}`)
     let id = req.params.id
     let body = req.body
@@ -61,7 +60,7 @@ router.put('/:id',authMiddleware, upload.single("image"),(req,res)=>{
     })
 })
 
-router.delete('/:id',authMiddleware, (req,res)=>{
+router.delete('/:id', (req,res)=>{
     logger.info(`Método: ${req.method} Ruta: /api/productos${req.url}`)
     let id= req.params.id
     products.deleteById(id).then(result=>{
