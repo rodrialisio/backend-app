@@ -40,7 +40,6 @@ if (process.env.HEROKU_DEPLOY) {
 } else {
     PORT = minimizedArgs.port || 8080
 }
-
 export let port = PORT
 
 console.log(process.env.HEROKU_DEPLOY)
