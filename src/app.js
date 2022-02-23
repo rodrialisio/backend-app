@@ -33,7 +33,19 @@ dotenv.config()
 const app = express();
 
 let minimizedArgs= minimist(process.argv) 
-export let port = minimizedArgs.port || 8080
+
+let PORT
+if (process.env.HEROKU_DEPLOY) {
+    PORT = process.env.PORT
+} else {
+    PORT = minimizedArgs.port || 8080
+}
+
+export let port = PORT
+
+console.log(process.env.HEROKU_DEPLOY)
+console.log(PORT)
+
 if (!minimizedArgs.mode) minimizedArgs.mode= "FORK"
 
 //export let port = process.env.PORT || 8080
@@ -62,7 +74,7 @@ if (minimizedArgs.mode === "CLUSTER") {
 }
 
 const baseSession = (session({
-    store: MongoStore.create({mongoUrl: process.env.MONGO_URL_SESSIONS,ttl:600}),
+    store: MongoStore.create({mongoUrl: process.env.MONGO_URL_SESSIONS, ttl:600}),
     secret:process.env.SECRET,
     resave: true,
     saveUninitialized: true,
