@@ -36,6 +36,8 @@ let minimizedArgs= minimist(process.argv)
 export let port = minimizedArgs.port || 8080
 if (!minimizedArgs.mode) minimizedArgs.mode= "FORK"
 
+//export let port = process.env.PORT || 8080
+
 let server
 if (minimizedArgs.mode === "CLUSTER") {  
     if (cluster.isMaster) {
