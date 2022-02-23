@@ -1,8 +1,9 @@
 CURRENT OPS:
-0:34 mmmm
 
 Comments:
-heroku empieza en 1:23
+El cambio en las vistas fue el cambio de color de fondo
+Se revisaron los mensajes enviados por nuestro servidor en heroku a su propia consola ingresando "heroku logs --tail" en nuestra consola
+URL: https://backend-app-coderhouse.herokuapp.com/
 
 PENDING:
 Mongodb compass no lee la base de datos de atlas

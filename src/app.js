@@ -42,9 +42,6 @@ if (process.env.HEROKU_DEPLOY === "1") {
 }
 export let port = PORT
 
-console.log(process.env.HEROKU_DEPLOY)
-console.log(PORT)
-
 if (!minimizedArgs.mode) minimizedArgs.mode= "FORK"
 
 //export let port = process.env.PORT || 8080
