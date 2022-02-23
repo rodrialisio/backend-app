@@ -62,10 +62,7 @@ if (minimizedArgs.mode === "CLUSTER") {
 }
 
 const baseSession = (session({
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URL_SESSIONS,
-        ttl:600
-    }),
+    store: MongoStore.create({mongoUrl: process.env.MONGO_URL_SESSIONS,ttl:600}),
     secret:process.env.SECRET,
     resave: true,
     saveUninitialized: true,
