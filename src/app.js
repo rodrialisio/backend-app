@@ -35,7 +35,7 @@ const app = express();
 let minimizedArgs= minimist(process.argv) 
 
 let PORT
-if (process.env.HEROKU_DEPLOY) {
+if (process.env.HEROKU_DEPLOY === "1") {
     PORT = process.env.PORT
 } else {
     PORT = minimizedArgs.port || 8080
