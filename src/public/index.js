@@ -11,11 +11,13 @@ registerForm.addEventListener("submit",(e)=> {
     if(document.getElementById("register-user-password").value === document.getElementById("register-user-repeat-password").value) {
         let info = new FormData(registerForm)
         let sendObject= {
-            id: info.get("register-user-id"),
+            username: info.get("register-user-id"),
             name: info.get("register-user-name"),
             last_name: info.get("register-user-last-name"),
             age: info.get("register-user-age"),
             alias: info.get("register-user-alias"),
+            adresss: info.get("register-user-adress"),
+            phone: info.get("register-user-phone"),
             avatar: info.get("register-user-avatar"),
             password: info.get("register-user-password")
         }
@@ -44,7 +46,7 @@ loginForm.addEventListener("submit", (e)=> {
     e.preventDefault()
     let info = new FormData(loginForm)
     let sendObject= {
-        id: info.get("login-user-id"),
+        username: info.get("login-user-id"),
         password: info.get("login-user-password")
     }
     fetch("/login-user", {
@@ -63,9 +65,9 @@ loginForm.addEventListener("submit", (e)=> {
     })
 })
 
-loginFacebookButton.addEventListener("click", ()=> {
+/* loginFacebookButton.addEventListener("click", ()=> {
     location = "http://localhost:8080/auth/facebook"
-})
+}) */
 
 socket.on("updateProducts", data => {
     let products = data.payload

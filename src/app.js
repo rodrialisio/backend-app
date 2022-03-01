@@ -16,17 +16,14 @@ import { products } from "./daos/index.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import ios from "socket.io-express-session"
-import initializePassportConfig from "./passport-config.js";
+import initializePassport from "./passport-config.js";
 import passport from "passport";
 import minimist from "minimist";
 import dotenv from "dotenv"
 import cluster from "cluster"
 import core from "os"
-import {cpus} from "os"
 import compression from "compression"
 import {logger} from "./config.js"
-import url from "url"
-import bcrypt from "bcrypt"
 
 dotenv.config()
 
@@ -43,8 +40,6 @@ if (process.env.HEROKU_DEPLOY === "1") {
 export let port = PORT
 
 if (!minimizedArgs.mode) minimizedArgs.mode= "FORK"
-
-//export let port = process.env.PORT || 8080
 
 let server
 if (minimizedArgs.mode === "CLUSTER") {  
@@ -103,7 +98,7 @@ app.use("/api/productos-test",productTestRouter)
 app.use("/api/carritos", cartRouter)
 app.use("/api/randoms", randomsRouter)
 
-initializePassportConfig()
+initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -112,7 +107,7 @@ app.get("/",async function (req,res) {
     res.render("Home")
 })
 
-app.get("/auth/facebook", passport.authenticate("facebook"/* ,{scope:["email","displayName","photos"]} */),(req,res)=> {
+/* app.get("/auth/facebook", passport.authenticate("facebook" ,//{scope:["email","displayName","photos"]}),//(req,res)=> {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
 })
 
@@ -127,7 +122,7 @@ app.get("/auth/facebook/callback", passport.authenticate("facebook",{failureRedi
 
 app.get("/facebook-login-fail", (req,res)=> {  
     res.send({error:"Hubo un error de conexión!"})
-})
+}) */
 
 app.get("/logout", (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
@@ -151,29 +146,40 @@ app.get("/info", compression(), (req,res)=> {
         proyect_folder: process.cwd(),
         cpus: cluster.isMaster? 1: core.cpus().length
     }
-    console.log(info)
     res.render("info",info)
 })
 
-app.post("/register-user", async (req,res)=> {
+app.post("/register-user", passport.authenticate("register",{failureRedirect:"/failed-register"}), async (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-    let userData = req.body
-    let result = await users.registerUser(userData)
-    res.send(result)
+    res.send({status:"success", message:"usuario registrado exitosamente"})
 })
 
-app.post("/login-user", async (req,res)=> {
+app.get("/failed-register",(req,res)=> {
+    res.send({status:"error"})
+})
+
+app.post("/login-user", passport.authenticate("login",{failureRedirect:"/failed-login"}),async (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
+    req.session.user = {
+        userId: req.user.id,
+        userName: req.user.name
+    }
+    res.send({status:"success", message: "usuario logueado exitosamente"})
+    /* 
     let {id, password} = req.body
     if (!id || !password) return res.status(400).send({message:"datos incompletos"})
     let search = await users.getUserById(id)
     if (!search.payload) return res.status(404).send(search)
     else if (search.payload[0].password !== password) return res.send({status:"error", message:"usuario o contraseña incorrecta"})
     req.session.user = {
-        userId: search.payload[0].id,
-        userName: search.payload[0].name
+        userId: req.user.id,
+        userName: req.user.name
     }
-    res.send({status:"success", message: `usuario ${req.session.user.userId} logueado`})
+    res.redirect("/pages/chat.html")*/
+})
+
+app.get("/failed-login",(req,res)=> {
+    res.send({status:"error"})
 })
 
 io.on("connection", async socket => {

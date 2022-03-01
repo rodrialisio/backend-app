@@ -1,15 +1,61 @@
 import passport from "passport";
-import fbStrategy from "passport-facebook"
-//import {users} from "./app.js";
+import local from "passport-local"
+//import fbStrategy from "passport-facebook"
+import { isValidPassword } from "./utils.js"
+import { createHash } from "./utils.js"
 import {users} from "./daos/users/userMongo.js";
 
-const FacebookStrategy = fbStrategy.Strategy
+const LocalStrategy = local.Strategy
 
-const initializePassportConfig= () => {
+export const initializePassport = () => {
+    passport.use("register", new LocalStrategy({passReqToCallback: true}, async (req,username,password,done)=> { //passReq es para que tome mi req como argumento en la function
+        try {
+            let user = await users.findOne({id:username})
+            if (user) return done(null,false, {message:"usuario ya registrado"})
+            const newUser = {
+                id: username,
+                name: req.body.name,
+                last_name: req.body.last_name,
+                age: req.body.age,
+                alias: req.body.alias,
+                avatar: req.body.avatar,
+                password: createHash(password)
+            }
+            try {
+                let result = await users.create(newUser)
+                done(null,result)
+            } catch (err) {
+                return done(err)
+            }
+        } catch (err) {
+            return done(err)
+        }
+    }))
+    passport.use("login", new LocalStrategy(async(username,password,done)=> {
+        try {
+            console.log("check1")/////////////////////////////////////////////////////////////////////////////////////
+            let user = await users.findOne({username:username})
+            console.log("check2")/////////////////////////////////////////////////////////////////////////////////////
+            if (!user) return done(null,false, {message: "user not found"})
+            if(!isValidPassword(user,password)) return done(null,false,{message:"invalid password"})
+            return done(null,user)
+        } catch (err) {
+            done(err)
+        }
+    }))
+    passport.serializeUser((user,done)=> {
+        done(null,user._id)
+    })
+    passport.deserializeUser((id,done)=> {
+        users.findById(id,done)
+    })
+}
+
+/* const initializePassportConfig= async () => {
     passport.use("facebook", new FacebookStrategy({
-        clientID: "1130850957701584",                                                //se obtiene de www.developers.facebook
+        clientID: "1130850957701584",                                                
         clientSecret: "c3a0d3c2f2dba2af65aad41fe1a7e567",
-        callbackURL: "https://e268-190-17-8-82.ngrok.io/auth/facebook/callback",     //lo genera ngrok
+        callbackURL: "https://e268-190-17-8-82.ngrok.io/auth/facebook/callback",     
         profileFields: ["emails","displayName","photos"]
     }, async (accessToken, refreshToken, profile, done)=> {
         try {
@@ -32,5 +78,5 @@ const initializePassportConfig= () => {
         users.findById(id,done)
     })
 } 
-
-export default initializePassportConfig
+ */
+export default initializePassport
