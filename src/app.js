@@ -24,6 +24,7 @@ import cluster from "cluster"
 import core from "os"
 import compression from "compression"
 import {logger} from "./config.js"
+import upload from "./services/upload.js"
 
 dotenv.config()
 
@@ -107,26 +108,11 @@ app.get("/",async function (req,res) {
     res.render("Home")
 })
 
-/* app.get("/auth/facebook", passport.authenticate("facebook" ,//{scope:["email","displayName","photos"]}),//(req,res)=> {
-    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-})
-
-app.get("/auth/facebook/callback", passport.authenticate("facebook",{failureRedirect:"/facebook-login-fail"}), (req,res)=>{
-    req.session.user = {
-        userId: req.user.id,
-        userName: req.authInfo.displayName,
-        userPicture: req.authInfo.picture.value
-    }
-    res.redirect("/pages/chat.html")
-})
-
-app.get("/facebook-login-fail", (req,res)=> {  
-    res.send({error:"Hubo un error de conexión!"})
-}) */
-
 app.get("/logout", (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
+    req.session.user= null
     req.logout()
+    console.log("despues de logout: ",req.session)
 })
 
 app.get("/current-user", async (req,res)=> {
@@ -149,7 +135,7 @@ app.get("/info", compression(), (req,res)=> {
     res.render("info",info)
 })
 
-app.post("/register-user", passport.authenticate("register",{failureRedirect:"/failed-register"}), async (req,res)=> {
+app.post("/register-user", upload.single("register-user-avatar"), passport.authenticate("register",{failureRedirect:"/failed-register"}), async (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     res.send({status:"success", message:"usuario registrado exitosamente"})
 })
@@ -165,17 +151,6 @@ app.post("/login-user", passport.authenticate("login",{failureRedirect:"/failed-
         userName: req.user.name
     }
     res.send({status:"success", message: "usuario logueado exitosamente"})
-    /* 
-    let {id, password} = req.body
-    if (!id || !password) return res.status(400).send({message:"datos incompletos"})
-    let search = await users.getUserById(id)
-    if (!search.payload) return res.status(404).send(search)
-    else if (search.payload[0].password !== password) return res.send({status:"error", message:"usuario o contraseña incorrecta"})
-    req.session.user = {
-        userId: req.user.id,
-        userName: req.user.name
-    }
-    res.redirect("/pages/chat.html")*/
 })
 
 app.get("/failed-login",(req,res)=> {

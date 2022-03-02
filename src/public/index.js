@@ -9,6 +9,20 @@ let productForm= document.getElementById("productForm")
 registerForm.addEventListener("submit",(e)=> {
     e.preventDefault()
     if(document.getElementById("register-user-password").value === document.getElementById("register-user-repeat-password").value) {
+        /* let data = new FormData(registerForm)   
+        fetch("/register-user",{
+            method: "POST",
+            body: data
+        }).then(result => { 
+            return result.json()
+        }).then (json=> {    
+            if (json.status==="success") {
+                alert(json.message)
+                registerForm.reset()
+            } else {
+                location.replace("./pages/signupError.html")
+            }
+        }) */
         let info = new FormData(registerForm)
         let sendObject= {
             username: info.get("register-user-id"),
@@ -16,7 +30,7 @@ registerForm.addEventListener("submit",(e)=> {
             last_name: info.get("register-user-last-name"),
             age: info.get("register-user-age"),
             alias: info.get("register-user-alias"),
-            adresss: info.get("register-user-adress"),
+            adress: info.get("register-user-adress"),
             phone: info.get("register-user-phone"),
             avatar: info.get("register-user-avatar"),
             password: info.get("register-user-password")
@@ -64,10 +78,6 @@ loginForm.addEventListener("submit", (e)=> {
         else location.replace("./pages/chat.html")
     })
 })
-
-/* loginFacebookButton.addEventListener("click", ()=> {
-    location = "http://localhost:8080/auth/facebook"
-}) */
 
 socket.on("updateProducts", data => {
     let products = data.payload
