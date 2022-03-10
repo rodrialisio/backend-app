@@ -7,6 +7,7 @@ export default class CartMongo extends MongoContainer {
             "carritos",
             {   
                 id: {type:Number, required: true, unique:true},
+                user: {type:String, required: true, unique:true},
                 products: {
                     type:[{
                         type: Schema.Types.ObjectId,

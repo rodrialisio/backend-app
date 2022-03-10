@@ -1,1 +1,112 @@
-[2022-02-17T17:55:26.449] [ERROR] dev - el usuario ya existe
+[2022-03-08T19:58:15.459] [ERROR] dev - no se encontró el usuario
+[2022-03-08T19:58:16.524] [ERROR] dev - MongoServerError: E11000 duplicate key error collection: ecommerce.carritos index: user_1 dup key: { user: "q@1" }
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\operations\insert.js:51:33
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection_pool.js:272:25
+    at handleOperationResult (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\sdam\server.js:370:9)
+    at MessageStream.messageHandler (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection.js:479:9)
+    at MessageStream.emit (node:events:520:28)
+    at processIncomingData (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:108:16)
+    at MessageStream._write (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:28:9)
+    at writeOrBuffer (node:internal/streams/writable:390:12)
+    at _write (node:internal/streams/writable:331:10)
+    at MessageStream.Writable.write (node:internal/streams/writable:335:10) {
+  index: 0,
+  code: 11000,
+  keyPattern: { user: 1 },
+  keyValue: { user: 'q@1' }
+}
+[2022-03-08T19:59:23.567] [ERROR] dev - no se encontró el usuario
+[2022-03-08T19:59:24.662] [ERROR] dev - MongoServerError: E11000 duplicate key error collection: ecommerce.carritos index: user_1 dup key: { user: "q@1" }
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\operations\insert.js:51:33
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection_pool.js:272:25
+    at handleOperationResult (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\sdam\server.js:370:9)
+    at MessageStream.messageHandler (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection.js:479:9)
+    at MessageStream.emit (node:events:520:28)
+    at processIncomingData (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:108:16)
+    at MessageStream._write (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:28:9)
+    at writeOrBuffer (node:internal/streams/writable:390:12)
+    at _write (node:internal/streams/writable:331:10)
+    at MessageStream.Writable.write (node:internal/streams/writable:335:10) {
+  index: 0,
+  code: 11000,
+  keyPattern: { user: 1 },
+  keyValue: { user: 'q@1' }
+}
+[2022-03-08T20:00:29.945] [ERROR] dev - no se encontró el usuario
+[2022-03-08T20:00:30.962] [ERROR] dev - MongoServerError: E11000 duplicate key error collection: ecommerce.carritos index: user_1 dup key: { user: "q@1" }
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\operations\insert.js:51:33
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection_pool.js:272:25
+    at handleOperationResult (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\sdam\server.js:370:9)
+    at MessageStream.messageHandler (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection.js:479:9)
+    at MessageStream.emit (node:events:520:28)
+    at processIncomingData (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:108:16)
+    at MessageStream._write (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:28:9)
+    at writeOrBuffer (node:internal/streams/writable:390:12)
+    at _write (node:internal/streams/writable:331:10)
+    at MessageStream.Writable.write (node:internal/streams/writable:335:10) {
+  index: 0,
+  code: 11000,
+  keyPattern: { user: 1 },
+  keyValue: { user: 'q@1' }
+}
+[2022-03-08T20:01:49.395] [ERROR] dev - no se encontró el usuario
+[2022-03-08T20:01:50.394] [ERROR] dev - MongoServerError: E11000 duplicate key error collection: ecommerce.carritos index: user_1 dup key: { user: "q@1" }
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\operations\insert.js:51:33
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection_pool.js:272:25
+    at handleOperationResult (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\sdam\server.js:370:9)
+    at MessageStream.messageHandler (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection.js:479:9)
+    at MessageStream.emit (node:events:520:28)
+    at processIncomingData (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:108:16)
+    at MessageStream._write (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:28:9)
+    at writeOrBuffer (node:internal/streams/writable:390:12)
+    at _write (node:internal/streams/writable:331:10)
+    at MessageStream.Writable.write (node:internal/streams/writable:335:10) {
+  index: 0,
+  code: 11000,
+  keyPattern: { user: 1 },
+  keyValue: { user: 'q@1' }
+}
+[2022-03-08T20:03:23.893] [ERROR] dev - no se encontró el usuario
+[2022-03-08T20:03:25.325] [ERROR] dev - MongoServerError: E11000 duplicate key error collection: ecommerce.carritos index: user_1 dup key: { user: "q@1" }
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\operations\insert.js:51:33
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection_pool.js:272:25
+    at handleOperationResult (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\sdam\server.js:370:9)
+    at MessageStream.messageHandler (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection.js:479:9)
+    at MessageStream.emit (node:events:520:28)
+    at processIncomingData (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:108:16)
+    at MessageStream._write (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:28:9)
+    at writeOrBuffer (node:internal/streams/writable:390:12)
+    at _write (node:internal/streams/writable:331:10)
+    at MessageStream.Writable.write (node:internal/streams/writable:335:10) {
+  index: 0,
+  code: 11000,
+  keyPattern: { user: 1 },
+  keyValue: { user: 'q@1' }
+}
+[2022-03-08T20:06:19.557] [ERROR] dev - no se encontró el usuario
+[2022-03-08T20:06:20.563] [ERROR] dev - MongoServerError: E11000 duplicate key error collection: ecommerce.carritos index: user_1 dup key: { user: "q@1" }
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\operations\insert.js:51:33
+    at C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection_pool.js:272:25
+    at handleOperationResult (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\sdam\server.js:370:9)
+    at MessageStream.messageHandler (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\connection.js:479:9)
+    at MessageStream.emit (node:events:520:28)
+    at processIncomingData (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:108:16)
+    at MessageStream._write (C:\Users\Usuario\backend-app\node_modules\mongodb\lib\cmap\message_stream.js:28:9)
+    at writeOrBuffer (node:internal/streams/writable:390:12)
+    at _write (node:internal/streams/writable:331:10)
+    at MessageStream.Writable.write (node:internal/streams/writable:335:10) {
+  index: 0,
+  code: 11000,
+  keyPattern: { user: 1 },
+  keyValue: { user: 'q@1' }
+}
+[2022-03-08T20:15:56.645] [ERROR] dev - no se encontró el usuario
+[2022-03-08T20:24:37.131] [ERROR] dev - no se encontró el usuario
+[2022-03-08T21:12:20.833] [ERROR] dev - no se encontró el usuario
+[2022-03-09T15:04:37.515] [ERROR] dev - no se encontró el usuario
+[2022-03-09T16:49:49.683] [ERROR] dev - no se encontró el carrito del usuario
+[2022-03-09T16:52:08.201] [ERROR] dev - no se encontró el carrito del usuario
+[2022-03-09T20:08:16.199] [ERROR] dev - no se encontró el carrito del usuario
+[2022-03-09T20:30:25.464] [ERROR] dev - no se encontró el carrito del usuario
+[2022-03-09T22:57:15.178] [ERROR] dev - no se encontró el carrito del usuario
+[2022-03-10T18:34:21.439] [ERROR] dev - no se encontró el carrito del usuario

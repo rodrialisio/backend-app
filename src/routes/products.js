@@ -10,9 +10,9 @@ router.get("/", async (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: /api/productos${req.url}`)
     products.getAll().then(products=> {
         if (products.status==="success") {
-            res.render("Products",{lista: JSON.parse(JSON.stringify(products.payload))})
+            res.send({status: "success", message: "productos encontrados", payload: products.payload})
         } else {
-            res.render("Products",{lista: []})
+            res.send({status: "error", message: "no se encontraron productos"})
         }
     })
 })

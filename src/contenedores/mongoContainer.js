@@ -33,14 +33,16 @@ export default class MongoContainer {
         }
     }
 
-    create= async ()=> {
+    create= async (user)=> {
         try {
             let cart ={}
             let carts = await this.collection.find()
             if (carts.length>0){
                 cart.id = carts[carts.length-1].id+1
+                cart.user= user
             } else {
                 cart.id = 1
+                cart.user= user
             }
             let result = await this.collection.create(cart)
             return {status:"success", message: "carrito creado", payload: result }           
@@ -55,6 +57,21 @@ export default class MongoContainer {
             let data = await this.collection.find()
             return {status:"success", payload: data}
         } catch(err) {
+            logger.error(err)
+            return {status:"error", message: err}
+        }
+    }
+
+    getByUser = async (user)=> {
+        try {
+            let search = await this.collection.find({user:user}).populate("products")
+            if (search.length>0) {
+                return {status:"success", message: "carrito del usuario encontrado", payload: search}
+            } else {
+                logger.error("no se encontró el carrito del usuario")
+                return {status:"error", message: "no se encontró el carrito del usuario"}
+            }
+        } catch (err) {
             logger.error(err)
             return {status:"error", message: err}
         }

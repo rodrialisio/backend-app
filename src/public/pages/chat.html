@@ -8,22 +8,56 @@
     <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-    <div class="no-flex-container">
-        <span>
-            <img id="user-picture" src="" alt="">
-            <h2 id="saludo"></h2>
-            <h6 id="user-id"></h6>
-        </span>
-        <a href="/"><button id="log-out-button" type="button" class="btn btn-primary">LOG OUT</button></a>
+    <div class="navbar">
+        <a id= "navbar-carrito" class="navbar-carrito" href="./carrito.html">CARRITO</a>
+        <a id="navbar-products-link" href="./productos.html" class="navbar-productos">PRODUCTOS :</a>
+        <a class="navbar-info" href="../info">INFO</a>
+        <a class="navbar-test" href="../api/productos-test">TEST</a>
+        <a class="navbar-randoms" href="../api/randoms">RANDOMS</a>
     </div>
-    <div id="home-chat" class="no-flex-container">
-        <h6>CENTRO DE MENSAJES:</h6>
-        <h6 id="compresion"></h6>  
-        <input id="message-input" class="no-flex-container" type="text">
-        <button id="message-send-button" type="button" class="btn btn-secondary">Enviar</button>
-        <div id="home-chat-message-log" class="no-flex-container">No hay mensajes</div>
-        <button ID="clear-log-button" class="btn btn-warning">CLEAR LOG</button>
-        
+    <div class="row">
+        <div class="col">
+            <div class="no-flex-container">
+                <span>
+                    <img id="user-picture" class="user-picture" src="" alt="">
+                    <h2 id="saludo"></h2>
+                    <h6 id="user-id"></h6>
+                </span>
+                <a href="/"><button id="log-out-button" type="button" class="btn btn-primary">LOG OUT</button></a>
+            </div>
+            <div id="home-chat" class="no-flex-container">
+                <h6>CENTRO DE MENSAJES:</h6>
+                <h6 id="compresion"></h6>  
+                <input id="message-input" class="no-flex-container" type="text">
+                <button id="message-send-button" type="button" class="btn btn-secondary">Enviar</button>
+                <div id="home-chat-message-log" class="no-flex-container">No hay mensajes</div>
+                <button ID="clear-log-button" class="btn btn-warning">CLEAR LOG</button>   
+            </div>
+        </div>
+        <div class="col">
+            <form id="productForm" name="productForm" class="no-flex-container">
+                <h6>NUEVO PRODUCTO:</h6>
+                <label for="title">Tipo</label><br>
+                <input name="title" required><br>
+                <label for="description">Descripción</label><br>
+                <input name="description" required><br>
+                <label for="code">Código</label><br>
+                <input name="code" required><br>
+                <label for="price">Precio</label><br>
+                <input name="price" type="number" required><br>
+                <label for="stock">Stock</label><br>
+                <input name="stock" type="number" required><br>
+                <label for="image">Foto</label><br>
+                <input name="image" type="file" required><br>
+                <button type="button submit" class="btn btn-success">REGISTRAR PRODUCTO</button>
+            </form>
+        </div>
+    </div>
+        <div class="no-flex-container">
+            <h6>PRODUCTOS EN TIEMPO REAL:</h6>
+            <div id="home-product-list" class="flex-container"></div>
+        </div>
+        <div class="no-flex-container"></div> 
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>

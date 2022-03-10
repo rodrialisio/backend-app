@@ -1,7 +1,5 @@
 import express from "express"
-import cors from "cors";
-//import Contenedor from "./services/productos.js";          // mysql
-//import Mensajes from "./services/mensajes.js";             // sqlite
+import cors from "cors"
 import Mensajes from "./daos/messages/messageMongo.js"
 import Usuarios from "./daos/users/userMongo.js"
 import productRouter from "./routes/products.js"
@@ -25,6 +23,9 @@ import core from "os"
 import compression from "compression"
 import {logger} from "./config.js"
 import upload from "./services/upload.js"
+import {registerMessage} from "./utils.js"
+import {orderMessage} from "./utils.js"
+import {phoneMessages} from "./utils.js"
 
 dotenv.config()
 
@@ -94,14 +95,14 @@ app.use((req,res,next)=> {
     next()
 })
 
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use("/api/productos", productRouter)
 app.use("/api/productos-test",productTestRouter)
 app.use("/api/carritos", cartRouter)
 app.use("/api/randoms", randomsRouter)
-
-initializePassport()
-app.use(passport.initialize())
-app.use(passport.session())
 
 app.get("/",async function (req,res) {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
@@ -112,7 +113,6 @@ app.get("/logout", (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     req.session.user= null
     req.logout()
-    console.log("despues de logout: ",req.session)
 })
 
 app.get("/current-user", async (req,res)=> {
@@ -135,12 +135,14 @@ app.get("/info", compression(), (req,res)=> {
     res.render("info",info)
 })
 
-app.post("/register-user", upload.single("register-user-avatar"), passport.authenticate("register",{failureRedirect:"/failed-register"}), async (req,res)=> {
+app.post("/register-user", upload.single("avatar"), passport.authenticate("register",{failureRedirect:"/failed-register"}), async (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-    res.send({status:"success", message:"usuario registrado exitosamente"})
+    const message = await registerMessage(req.user)
+    res.send({status:"success", message:"usuario creado exitosamente"})
 })
 
 app.get("/failed-register",(req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     res.send({status:"error"})
 })
 
@@ -148,12 +150,25 @@ app.post("/login-user", passport.authenticate("login",{failureRedirect:"/failed-
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     req.session.user = {
         userId: req.user.id,
-        userName: req.user.name
+        userName: req.user.name,
+        userAvatar: req.user.avatar,
+        userPhone: req.user.phone
     }
     res.send({status:"success", message: "usuario logueado exitosamente"})
 })
 
+app.post("/pedido", async (req,res)=> {
+    const order = await orderMessage(req.body.products, req.body.owner)
+    const phoneOrder = await phoneMessages(req.body.products, req.body.owner, req.body.ownerPhone)
+    if (order.status === "success" && phoneOrder.status === "success") {
+        res.send({status: "success", message: order.message +", "+ phoneOrder.message})
+    } else {
+        res.send({status:"error", message: order.message +", "+ phoneOrder.message})
+    }
+})
+
 app.get("/failed-login",(req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     res.send({status:"error"})
 })
 

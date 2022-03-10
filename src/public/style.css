@@ -6,6 +6,16 @@ body {
     background-color: rgb(139, 255, 183);
 }
 
+.navbar {
+    background-color: rgb(205, 159, 236);
+    justify-content: space-around;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+  }
+
 button {
     margin:10px
 }
@@ -16,7 +26,7 @@ h3 {
 }
 
 h6 {
-    color:rgb(46, 4, 161)
+    color:rgb(107, 107, 107)
 }
 
 .flex-container {
@@ -51,6 +61,22 @@ h6 {
     margin: 10px;
 }
 
+#product-cards > div {
+    color: rgb(0, 0, 0);
+    padding:10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: rgb(255, 255, 255);
+    text-align: left;
+}
+
+#product-cards> div > img {
+    width:100px;
+    margin: 10px;
+}
+
 .card {
     margin: 5px
 }
@@ -65,6 +91,10 @@ h6 {
 .chat-log-message-text {
     color: green;
     font-style:italic
+}
+
+.user-picture {
+    height: 150px;
 }
 
 

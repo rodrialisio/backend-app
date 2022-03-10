@@ -11,6 +11,14 @@ router.get("/", (req,res)=> {
     })
 })
 
+router.get("/usuario", (req,res)=> {
+    logger.info(`Método: ${req.method} Ruta: /api/carritos${req.url}`)
+    const user= req.query.username
+    carts.getByUser(user).then(result=> {
+        res.send(result)
+    })
+})
+
 router.get("/:id", (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: /api/carritos${req.url}`)
     const id= req.params.id
@@ -27,9 +35,10 @@ router.get("/:id/productos", (req,res)=> {
     })
 })
 
-router.post("/",(req,res)=> {     
+
+router.post("/",(req,res)=> {
     logger.info(`Método: ${req.method} Ruta: /api/carritos${req.url}`)                                          
-    carts.create().then(result=>{
+    carts.create(req.query.username).then(result=>{
         res.send(result);
     })
 })
