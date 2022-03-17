@@ -106,6 +106,7 @@ export async function phoneMessages(products,owner, ownerPhone) {
     }).join(``)
 
     try {
+        
         const whatsappMessage = await client.messages.create({
             from: "whatsapp:+14155238886", 
             to: process.env.ADMIN_WHATSAPP,

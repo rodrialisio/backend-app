@@ -1,7 +1,7 @@
 import express from "express"
 import upload from "../services/upload.js"
 import { io } from "../app.js"                 
-import {products} from "../daos/index.js"
+import {products} from "../daos/index.js"    
 import {logger} from "../config.js"
 
 const router = express.Router("router")

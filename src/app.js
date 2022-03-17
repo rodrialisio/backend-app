@@ -6,42 +6,37 @@ import productRouter from "./routes/products.js"
 import productTestRouter from "./routes/productsTest.js"
 import cartRouter from "./routes/carts.js"
 import randomsRouter from "./routes/randoms.js"
+import logoutRouter from  "./routes/logout.js"
+import currentUserRouter from "./routes/currentUser.js"
+import registerUserRouter from "./routes/registerUser.js"
+import failedRegisterRouter from "./routes/failedRegister.js"
+import loginUserRouter from "./routes/loginUser.js"
+import failedLoginRouter from "./routes/failedLogin.js"
+import infoRouter from "./routes/info.js"
+import pedidosRouter from "./routes/pedidos.js"
 import {engine} from "express-handlebars"
-import {Server} from "socket.io"
+import {Server} from "socket.io"      
 import __dirname from "./utils.js";
-import moment from "moment";
 import { products } from "./daos/index.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import ios from "socket.io-express-session"
 import initializePassport from "./passport-config.js";
-import passport from "passport";
+import passport from "passport"
 import minimist from "minimist";
 import dotenv from "dotenv"
 import cluster from "cluster"
 import core from "os"
-import compression from "compression"
 import {logger} from "./config.js"
-import upload from "./services/upload.js"
-import {registerMessage} from "./utils.js"
-import {orderMessage} from "./utils.js"
-import {phoneMessages} from "./utils.js"
+import { appSocket } from "./routes/appSocket.js"
 
 dotenv.config()
 
 const app = express();
 
-let minimizedArgs= minimist(process.argv) 
+export let minimizedArgs= minimist(process.argv) 
 
-let PORT
-if (process.env.HEROKU_DEPLOY === "1") {
-    PORT = process.env.PORT
-} else {
-    PORT = minimizedArgs.port || 8080
-}
-export let port = PORT
-
-if (!minimizedArgs.mode) minimizedArgs.mode= "FORK"
+export let port = process.env.HEROKU_DEPLOY === "1"? process.env.PORT : minimizedArgs.port || 8080
 
 let server
 if (minimizedArgs.mode === "CLUSTER") {  
@@ -60,7 +55,7 @@ if (minimizedArgs.mode === "CLUSTER") {
             console.log(`Servidor worker pid: ${process.pid} escuchando en ${port} `)
         })
     }
-} else if (minimizedArgs.mode === "FORK") {
+} else {
     server = app.listen(port, ()=> {
         console.log(`listening in ${port}`)
     })
@@ -76,7 +71,7 @@ const baseSession = (session({
 
 const mensajes = new Mensajes()
 export const users = new Usuarios()
-export const io = new Server(server)
+export const io = new Server(server) 
 io.use(ios(baseSession))
 
 app.use(express.json())
@@ -99,107 +94,29 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use("/register-user",registerUserRouter)
+app.use("/failed-register", failedRegisterRouter)
+app.use("/login-user", loginUserRouter)
+app.use("/failed-login", failedLoginRouter)
+app.use("/current-user", currentUserRouter)
 app.use("/api/productos", productRouter)
 app.use("/api/productos-test",productTestRouter)
 app.use("/api/carritos", cartRouter)
+app.use("/pedido", pedidosRouter)
 app.use("/api/randoms", randomsRouter)
+app.use("/info", infoRouter)
+app.use("/logout", logoutRouter)
 
 app.get("/",async function (req,res) {
     logger.info(`Método: ${req.method} Ruta: ${req.url}`)
     res.render("Home")
 })
 
-app.get("/logout", (req,res)=> {
-    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-    req.session.user= null
-    req.logout()
-})
-
-app.get("/current-user", async (req,res)=> {
-    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-    res.send(req.session.user)
-})
-
-app.get("/info", compression(), (req,res)=> {
-    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-    const info= {
-        entry_arg: minimizedArgs._.slice(2),
-        platform: process.platform,
-        node_version: process.version,
-        reserved_memory: process.memoryUsage(),
-        execution_path: process.execPath,
-        process_id: process.pid,
-        proyect_folder: process.cwd(),
-        cpus: cluster.isMaster? 1: core.cpus().length
-    }
-    res.render("info",info)
-})
-
-app.post("/register-user", upload.single("avatar"), passport.authenticate("register",{failureRedirect:"/failed-register"}), async (req,res)=> {
-    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-    const message = await registerMessage(req.user)
-    res.send({status:"success", message:"usuario creado exitosamente"})
-})
-
-app.get("/failed-register",(req,res)=> {
-    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-    res.send({status:"error"})
-})
-
-app.post("/login-user", passport.authenticate("login",{failureRedirect:"/failed-login"}),async (req,res)=> {
-    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-    req.session.user = {
-        userId: req.user.id,
-        userName: req.user.name,
-        userAvatar: req.user.avatar,
-        userPhone: req.user.phone
-    }
-    res.send({status:"success", message: "usuario logueado exitosamente"})
-})
-
-app.post("/pedido", async (req,res)=> {
-    const order = await orderMessage(req.body.products, req.body.owner)
-    const phoneOrder = await phoneMessages(req.body.products, req.body.owner, req.body.ownerPhone)
-    if (order.status === "success" && phoneOrder.status === "success") {
-        res.send({status: "success", message: order.message +", "+ phoneOrder.message})
-    } else {
-        res.send({status:"error", message: order.message +", "+ phoneOrder.message})
-    }
-})
-
-app.get("/failed-login",(req,res)=> {
-    logger.info(`Método: ${req.method} Ruta: ${req.url}`)
-    res.send({status:"error"})
-})
-
-io.on("connection", async socket => {
-    console.log(`El socket ${socket.id} se ha conectado.`)
-    let productos = await products.getAll()
-    socket.emit("updateProducts", productos)
-    let messages = await mensajes.getMessages()
-    socket.emit("messagelog",messages)
-    socket.on("message", async data=> {
-        const user = await users.getUserById(socket.handshake.session.user.userId)
-        let time= moment()
-        let message = {
-            author: {
-                id: user.payload[0].id
-            },            
-            text: data.message,
-            time: time.format("DD/MM/YYYY HH:mm")
-        }
-        mensajes.registerMessage(message).then(result => {
-            io.emit("messagelog",result)
-        })    
-    })
-    socket.on("clearLog", ()=> {
-        mensajes.clearLog().then(result=> {
-            io.emit("messagelog",result)
-        })
-    })
-})
-
 app.get("*", (req, res, next) => {
     logger.warn(`ruta inexistente! Método: ${req.method} Ruta: ${req.url}`)
     next()
 })
+
+
+appSocket(server,products,mensajes,users,baseSession,io)
+

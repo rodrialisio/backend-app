@@ -1,12 +1,13 @@
 import express from "express"
-import faker from "faker"
 import {logger} from "../config.js"
+import { productTest } from "../contenedores/productTestContainer.js"
 
 const router = express.Router("router")
 
 router.get("/", (req,res)=> {
     logger.info(`Método: ${req.method} Ruta: /api/productos-test${req.url}`)
-    let products = []
+    productTest(res)
+    /* let products = []
     for (let i=0; i<5; i++) {
         products.push({
             id: i+1,
@@ -19,7 +20,7 @@ router.get("/", (req,res)=> {
         })
     }
     console.log(`test exitoso`)
-    res.render("ProductsTest",{lista:products})
+    res.render("ProductsTest",{lista:products}) */
 })
 
 export default router

@@ -1,6 +1,5 @@
 import passport from "passport";
 import local from "passport-local"
-//import fbStrategy from "passport-facebook"
 import { isValidPassword } from "./utils.js"
 import { createHash } from "./utils.js"
 import {users} from "./daos/users/userMongo.js";

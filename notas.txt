@@ -1,22 +1,11 @@
 CURRENT OPS:
 
-filtro de productos
-Borrar codigo comentado
-implementar en heroku
-entregar
-probar unique
+io server
 
 COMMENTS:
 
-para modo cluster: node app --mode CLUSTER
-
-comandos artillery y archivos:
-artillery quick --count 50 -n 20  http://localhost:8080/api/productos > result_normal_logueado.txt      
-artillery quick --count 50 -n 20  http://localhost:8080/api/productos > result_cluster_logueado.txt     
-artillery quick --count 50 -n 20  http://localhost:8080/api/productos > result_normal_deslogueado.txt   
-artillery quick --count 50 -n 20  http://localhost:8080/api/productos > result_cluster_deslogueado.txt 
-
 PENDING:
+
 por sms el carrito llega incompleto
 Mongodb compass no lee la base de datos de atlas
 
