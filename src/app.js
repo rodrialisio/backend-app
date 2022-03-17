@@ -28,7 +28,7 @@ import dotenv from "dotenv"
 import cluster from "cluster"
 import core from "os"
 import {logger} from "./config.js"
-import { appSocket } from "./routes/appSocket.js"
+import { appSocket } from "./contenedores/appSocket.js"
 
 dotenv.config()
 
